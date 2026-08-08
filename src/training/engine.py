@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import time
 from collections.abc import Iterable
 
 import numpy as np
@@ -19,6 +20,8 @@ def train_one_epoch(
     criterion: nn.Module,
     device: torch.device,
     max_batches: int | None = None,
+    progress_every_batches: int | None = None,
+    phase: str = "train",
 ) -> dict[str, float]:
     model.train()
     loss_sum = 0.0
@@ -26,6 +29,7 @@ def train_one_epoch(
     samples = 0
     grad_norm_sum = 0.0
     batches = 0
+    progress_start = time.perf_counter()
     for batch_index, batch in enumerate(loader):
         if max_batches is not None and batch_index >= max_batches:
             break
@@ -51,6 +55,13 @@ def train_one_epoch(
         samples += batch_size
         grad_norm_sum += grad_norm
         batches += 1
+        if progress_every_batches and batches % progress_every_batches == 0:
+            print(
+                f"phase={phase} batch={batches} samples={samples} "
+                f"loss={loss_sum / samples:.6f} "
+                f"seconds={time.perf_counter() - progress_start:.1f}",
+                flush=True,
+            )
     if samples == 0:
         raise ValueError("training loader produced no samples")
     return {
@@ -70,12 +81,16 @@ def evaluate(
     criterion: nn.Module,
     device: torch.device,
     max_batches: int | None = None,
+    progress_every_batches: int | None = None,
+    phase: str = "evaluation",
 ) -> dict:
     model.eval()
     loss_sum = 0.0
     samples = 0
     labels_all: list[np.ndarray] = []
     probabilities_all: list[np.ndarray] = []
+    batches = 0
+    progress_start = time.perf_counter()
     for batch_index, batch in enumerate(loader):
         if max_batches is not None and batch_index >= max_batches:
             break
@@ -89,6 +104,14 @@ def evaluate(
         samples += batch_size
         labels_all.append(labels.cpu().numpy())
         probabilities_all.append(probabilities.cpu().numpy())
+        batches += 1
+        if progress_every_batches and batches % progress_every_batches == 0:
+            print(
+                f"phase={phase} batch={batches} samples={samples} "
+                f"loss={loss_sum / samples:.6f} "
+                f"seconds={time.perf_counter() - progress_start:.1f}",
+                flush=True,
+            )
     if samples == 0:
         raise ValueError("evaluation loader produced no samples")
     metrics = compute_binary_metrics(

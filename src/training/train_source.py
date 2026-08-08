@@ -230,6 +230,7 @@ def train_source_experiment(
     )
     criterion = nn.CrossEntropyLoss()
     max_epochs = int(epoch_override or training["epochs"])
+    progress_every_batches = int(training.get("progress_every_batches", 250))
     early_stopping = EarlyStopping(patience=int(training["patience"]))
     provenance = {
         "git": git_identity(),
@@ -282,6 +283,8 @@ def train_source_experiment(
             criterion=criterion,
             device=device,
             max_batches=max_eval_batches,
+            progress_every_batches=progress_every_batches,
+            phase="initial_validation",
         )
     best_path = output_dir / "best.pt"
     last_path = output_dir / "last.pt"
@@ -294,6 +297,8 @@ def train_source_experiment(
             criterion=criterion,
             device=device,
             max_batches=max_train_batches,
+            progress_every_batches=progress_every_batches,
+            phase=f"train_epoch_{epoch}",
         )
         validation_metrics = evaluate(
             model,
@@ -301,6 +306,8 @@ def train_source_experiment(
             criterion=criterion,
             device=device,
             max_batches=max_eval_batches,
+            progress_every_batches=progress_every_batches,
+            phase=f"validation_epoch_{epoch}",
         )
         row = {
             "epoch": epoch,
@@ -343,6 +350,8 @@ def train_source_experiment(
         criterion=criterion,
         device=device,
         max_batches=max_eval_batches,
+        progress_every_batches=progress_every_batches,
+        phase="best_validation",
     )
     test_metrics = None
     if test_loader is not None:
@@ -352,6 +361,8 @@ def train_source_experiment(
             criterion=criterion,
             device=device,
             max_batches=max_eval_batches,
+            progress_every_batches=progress_every_batches,
+            phase="test",
         )
     result = {
         "dataset": config["dataset"],
