@@ -9,15 +9,16 @@
 - [x] Document project, dataset, and experiment contracts.
 - [x] Add a read-only WFDB header audit and minimal tests.
 - [x] Add the proposed base directory structure and ignore rules.
-- [ ] Install `wfdb` in the active environment.
+- [x] Install persistent `wfdb==4.1.2` in the active environment.
 - [x] Locate and organize all four supplied datasets under `data/raw`.
 - [x] Run structural/header audits against the supplied datasets.
 - [x] Verify bundled checksums for LTAFDB and SHDB-AF.
 - [ ] Resolve/record upstream provenance for the converted CPSC2021 MATLAB set.
 - [ ] Decide whether to restore AFDB's official 25-entry `RECORDS` manifest;
   never change it silently.
-- [ ] Put the project under Git or provide the real Git checkout so the pinned
-  upstream commit can be verified.
+- [x] Put the local project under Git and record clean commits in new training
+  manifests. This establishes local experiment identity; it does not prove an
+  upstream commit for the originally supplied files.
 
 ### Validation record (2026-07-27)
 
@@ -110,10 +111,19 @@
 - Window endpoints equal to a half-open rhythm boundary are valid; windows that
   cross the boundary are excluded.
 
-## Open items before Stage 3
+## Stage 3 status
 
-- Install `wfdb` persistently in the formal experiment environment and record
-  the complete package versions.
-- Establish a Git commit identity before producing training checkpoints.
-- Implement CE-only source training and checkpointing before changing the
-  representation losses or disease-direction model.
+- [x] Install and record the formal environment dependencies.
+- [x] Establish clean Git identities for reproducible runs.
+- [x] Implement source-only CE training, validation macro-F1 early stopping,
+  full metrics, provenance manifests, and atomic best/last checkpoints.
+- [x] Restore model, optimizer, history, and early-stopping state and continue
+  a real-data run from a checkpoint.
+- [x] Pass 16-window tiny-overfit gates for CPSC2021 and LTAFDB.
+- [x] Complete fixed-seed, class-balanced small runs for both source datasets.
+- [ ] Run full CPSC2021 training with complete validation and test evaluation.
+- [ ] Run full LTAFDB training with complete validation and test evaluation.
+- [ ] Review both formal checkpoints before Stage 4.
+
+See `STAGE3_REPORT.md`. No target data or labels were accepted by the Stage 3
+trainer, and `MedTS_TTT.py` remains unchanged.

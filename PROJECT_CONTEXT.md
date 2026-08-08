@@ -118,11 +118,17 @@ No model code is changed in stage 0. Later, in small independently tested steps:
 
 ## Current limitations
 
-- The active Python environment still needs a persistent `wfdb` installation;
-  real-data validation used a temporary isolated installation.
+- The active environment now has persistent `wfdb==4.1.2`. Both inspected
+  Conda environments are CPU-only (`MPS` and CUDA unavailable), which makes
+  full Stage 3 early-stopped training a multi-hour task.
+- The local experiment repository now has Git identity. This records future
+  code state but cannot retrospectively prove the upstream commit of the
+  originally supplied files.
 - The locally supplied CPSC2021 collection is a MATLAB conversion and cannot be
   byte-verified against the official WFDB release.
 - Dataset-specific rhythm parsing and subject-ID extraction are implemented and
   documented in `STAGE1_REPORT.md`.
-- No training, cutting, filtering, resampling, or model changes have been
-  performed through stage 1.
+- Stage 2 preprocessing and Stage 3 CE-only source training infrastructure are
+  implemented. Tiny-overfit and fixed-seed small runs passed for CPSC2021 and
+  LTAFDB; complete-split source baselines remain pending. `MedTS_TTT.py` is
+  still unchanged. See `STAGE2_REPORT.md` and `STAGE3_REPORT.md`.

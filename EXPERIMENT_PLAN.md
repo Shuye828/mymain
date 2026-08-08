@@ -52,6 +52,11 @@ are complete. See `STAGE2_REPORT.md`.
 - Acceptance: overfit a tiny subset, resume checkpoints, reproduce a fixed-seed
   small run, and never inspect target labels during selection.
 
+Partial completion record: the CE-only trainer, metrics, provenance-rich
+checkpoint/resume path, both tiny-overfit gates, and fixed-seed small runs for
+CPSC2021 and LTAFDB are complete. Full-split early-stopped training remains
+pending because the current host is CPU-only. See `STAGE3_REPORT.md`.
+
 ### Stage 4 — source embeddings and disease direction
 
 - Add `forward_features`, projection head, and L2 normalization.
