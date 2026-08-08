@@ -9,12 +9,10 @@ import numpy as np
 from sklearn.metrics import (
     accuracy_score,
     average_precision_score,
-    balanced_accuracy_score,
     confusion_matrix,
     f1_score,
     matthews_corrcoef,
     precision_score,
-    recall_score,
     roc_auc_score,
 )
 
@@ -47,17 +45,38 @@ def compute_binary_metrics(
     y_pred = (y_prob >= threshold).astype(np.int64)
     matrix = confusion_matrix(y_true, y_pred, labels=[0, 1])
     tn, fp, fn, tp = (int(value) for value in matrix.ravel())
+    sensitivity = tp / (tp + fn) if tp + fn else math.nan
     specificity = tn / (tn + fp) if tn + fp else math.nan
+    balanced_accuracy = (
+        (sensitivity + specificity) / 2
+        if math.isfinite(sensitivity) and math.isfinite(specificity)
+        else math.nan
+    )
+    has_both_classes = bool(np.unique(y_true).size == 2)
     return {
         "accuracy": float(accuracy_score(y_true, y_pred)),
-        "balanced_accuracy": float(balanced_accuracy_score(y_true, y_pred)),
-        "macro_f1": float(f1_score(y_true, y_pred, average="macro", zero_division=0)),
-        "auroc": _safe_metric(roc_auc_score, y_true, y_prob),
-        "auprc": _safe_metric(average_precision_score, y_true, y_prob),
-        "sensitivity": float(recall_score(y_true, y_pred, zero_division=0)),
+        "balanced_accuracy": float(balanced_accuracy),
+        "macro_f1": float(
+            f1_score(
+                y_true,
+                y_pred,
+                labels=[0, 1],
+                average="macro",
+                zero_division=0,
+            )
+        ),
+        "auroc": _safe_metric(roc_auc_score, y_true, y_prob)
+        if has_both_classes
+        else math.nan,
+        "auprc": _safe_metric(average_precision_score, y_true, y_prob)
+        if has_both_classes
+        else math.nan,
+        "sensitivity": float(sensitivity),
         "specificity": float(specificity),
         "precision": float(precision_score(y_true, y_pred, zero_division=0)),
-        "mcc": float(matthews_corrcoef(y_true, y_pred)),
+        "mcc": float(matthews_corrcoef(y_true, y_pred))
+        if has_both_classes
+        else 0.0,
         "threshold": float(threshold),
         "confusion_matrix": [[tn, fp], [fn, tp]],
         "support": int(len(y_true)),

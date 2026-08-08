@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import time
 from copy import deepcopy
@@ -57,7 +58,55 @@ def _tiny_rows(rows: list[WindowRow], per_class: int) -> list[WindowRow]:
     return result
 
 
-def _build_loaders(config: dict, *, tiny_overfit: bool) -> tuple:
+def _balanced_diagnostic_rows(
+    rows: list[WindowRow], *, per_class: int, seed: int
+) -> list[WindowRow]:
+    """Select a deterministic source-only diagnostic subset by class."""
+
+    if per_class <= 0:
+        raise ValueError("diagnostic class cap must be positive")
+    selected: list[WindowRow] = []
+    for label in (0, 1):
+        candidates = [row for row in rows if row.binary_label == label]
+        candidates.sort(
+            key=lambda row: (
+                _row_priority_for_diagnostic(row, seed),
+                row.record_id,
+                row.start_sample,
+            )
+        )
+        if len(candidates) < per_class:
+            raise ValueError(
+                f"class {label} has {len(candidates)} rows, fewer than {per_class}"
+            )
+        selected.extend(candidates[:per_class])
+    selected.sort(
+        key=lambda row: (
+            row.binary_label,
+            row.subject_id,
+            row.record_id,
+            row.start_sample,
+        )
+    )
+    return selected
+
+
+def _row_priority_for_diagnostic(row: WindowRow, seed: int) -> int:
+    payload = (
+        f"diagnostic:{seed}:{row.dataset}:{row.subject_id}:"
+        f"{row.record_id}:{row.start_sample}:{row.binary_label}"
+    )
+    return int.from_bytes(
+        hashlib.blake2b(payload.encode(), digest_size=8).digest(), "big"
+    )
+
+
+def _build_loaders(
+    config: dict,
+    *,
+    tiny_overfit: bool,
+    evaluation_windows_per_class: int | None = None,
+) -> tuple:
     dataset = config["dataset"]
     index_path = Path(config["index_path"])
     data_root = Path(config["data_root"])
@@ -80,6 +129,17 @@ def _build_loaders(config: dict, *, tiny_overfit: bool) -> tuple:
             [index_path], source_split="validation"
         )
         test_rows = load_window_rows([index_path], source_split="test")
+        if evaluation_windows_per_class is not None:
+            validation_rows = _balanced_diagnostic_rows(
+                validation_rows,
+                per_class=evaluation_windows_per_class,
+                seed=seed,
+            )
+            test_rows = _balanced_diagnostic_rows(
+                test_rows,
+                per_class=evaluation_windows_per_class,
+                seed=seed,
+            )
 
     train_dataset = ECGWindowDataset(train_rows, data_root=data_root)
     validation_dataset = ECGWindowDataset(validation_rows, data_root=data_root)
@@ -125,6 +185,7 @@ def _build_loaders(config: dict, *, tiny_overfit: bool) -> tuple:
         "validation_windows": len(validation_rows),
         "test_windows": len(test_rows),
         "tiny_overfit": tiny_overfit,
+        "evaluation_windows_per_class": evaluation_windows_per_class,
     }
     return train_loader, validation_loader, test_loader, counts
 
@@ -139,6 +200,7 @@ def train_source_experiment(
     max_train_batches: int | None = None,
     max_eval_batches: int | None = None,
     resume_path: Path | None = None,
+    evaluation_windows_per_class: int | None = None,
 ) -> dict:
     """Train one source model; target data are never accepted by this API."""
 
@@ -154,7 +216,11 @@ def train_source_experiment(
         output_dir = output_dir.parent / f"tiny_{config['dataset']}_ce"
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    loaders = _build_loaders(config, tiny_overfit=tiny_overfit)
+    loaders = _build_loaders(
+        config,
+        tiny_overfit=tiny_overfit,
+        evaluation_windows_per_class=evaluation_windows_per_class,
+    )
     train_loader, validation_loader, test_loader, data_counts = loaders
     model = SourceMedTSTTT(**config["model"]).to(device)
     optimizer = torch.optim.Adam(

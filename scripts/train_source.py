@@ -25,6 +25,11 @@ def main() -> int:
     parser.add_argument("--max-train-batches", type=int)
     parser.add_argument("--max-eval-batches", type=int)
     parser.add_argument(
+        "--eval-windows-per-class",
+        type=int,
+        help="deterministic source-only diagnostic cap; formal runs omit this",
+    )
+    parser.add_argument(
         "--resume",
         type=Path,
         help="resume model, optimizer, history, and early-stopping state",
@@ -41,6 +46,7 @@ def main() -> int:
         max_train_batches=args.max_train_batches,
         max_eval_batches=args.max_eval_batches,
         resume_path=args.resume,
+        evaluation_windows_per_class=args.eval_windows_per_class,
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     if args.tiny_overfit and not result.get("tiny_success", False):
