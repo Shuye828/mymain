@@ -1,0 +1,6 @@
+torch
+tqdm
+wfdb==4.1.2
+h5py
+scipy
+scikit-learn

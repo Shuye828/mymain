@@ -1,0 +1,10 @@
+{
+  "dataset": "ltafdb",
+  "format": "wfdb",
+  "root": "data/raw/ltafdb",
+  "expected_fs": 128,
+  "expected_channels": 2,
+  "channel_order": ["ECG", "ECG"],
+  "subject_id": "record_id",
+  "rhythm_annotation": "atr"
+}

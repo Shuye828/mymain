@@ -1,0 +1,47 @@
+{
+  "version": "strict_af_v1",
+  "policy": {
+    "positive": "Only explicit AFIB or CPSC AF intervals.",
+    "negative": "Only explicit normal/non-AF intervals.",
+    "default": "Any unknown token is excluded.",
+    "transition_windows": "Excluded later during window construction."
+  },
+  "datasets": {
+    "ltafdb": {
+      "(AFIB": "af",
+      "(N": "nonaf",
+      "(VT": "exclude",
+      "(AB": "exclude",
+      "(SVTA": "exclude",
+      "(T": "exclude",
+      "(B": "exclude",
+      "(SBR": "exclude",
+      "(IVR": "exclude",
+      "__UNANNOTATED__": "exclude"
+    },
+    "afdb": {
+      "(AFIB": "af",
+      "(N": "nonaf",
+      "(AFL": "exclude",
+      "(J": "exclude",
+      "__UNANNOTATED__": "exclude"
+    },
+    "shdb-af": {
+      "(AFIB": "af",
+      "(N": "nonaf",
+      "(AFL": "exclude",
+      "(AT": "exclude",
+      "(PAT": "exclude",
+      "(NOD": "exclude",
+      "(AB": "exclude",
+      "__UNANNOTATED__": "exclude"
+    },
+    "cpsc2021": {
+      "Normal": "nonaf",
+      "AEf": "af",
+      "AFp_AF": "af",
+      "AFp_nonAF": "nonaf",
+      "__UNKNOWN_CPSC_LABEL__": "exclude"
+    }
+  }
+}

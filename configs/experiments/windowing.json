@@ -1,0 +1,17 @@
+{
+  "version": "strict_10s_nonoverlap_v1",
+  "duration_seconds": 10,
+  "stride_seconds": 10,
+  "grid_origin_sample": 0,
+  "full_interval_containment": true,
+  "boundary_guard_samples": 0,
+  "target_fs": 200,
+  "target_shape": [2, 2000],
+  "bandpass_hz": [0.5, 40.0],
+  "filter_order": 4,
+  "extra_zscore": false,
+  "rhythm_mapping_version": "strict_af_v1",
+  "cpsc_boundary_version": "cpsc_rpeak_half_open_v1",
+  "max_windows_per_subject_per_class": 500,
+  "sampling_seed": 42
+}

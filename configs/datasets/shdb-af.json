@@ -1,0 +1,11 @@
+{
+  "dataset": "shdb-af",
+  "format": "wfdb",
+  "root": "data/raw/shdb-af",
+  "expected_fs": 200,
+  "expected_channels": 2,
+  "channel_order": ["ECG1", "ECG2"],
+  "subject_id": "AdditionalData.csv:Subject_ID",
+  "rhythm_annotation": "atr",
+  "target_initial_protocol": "98 annotated records only"
+}

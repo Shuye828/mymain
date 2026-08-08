@@ -1,0 +1,11 @@
+{
+  "dataset": "afdb",
+  "format": "wfdb",
+  "root": "data/raw/afdb",
+  "expected_fs": 250,
+  "expected_channels": 2,
+  "channel_order": ["ECG1", "ECG2"],
+  "subject_id": "record_id",
+  "rhythm_annotation": "atr",
+  "annotation_only_records": ["00735", "03665"]
+}

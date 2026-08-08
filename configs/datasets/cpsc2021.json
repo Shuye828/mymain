@@ -1,0 +1,15 @@
+{
+  "dataset": "cpsc2021",
+  "format": "matlab_v7.3_hdf5",
+  "root": "data/raw/cpsc2021",
+  "expected_fs": 200,
+  "expected_channels": 2,
+  "channel_order": ["I", "II"],
+  "subject_id": "first_numeric_filename_component",
+  "signal_fields": ["record/signal_lead1", "record/signal_lead2"],
+  "forbidden_signal_fields": [
+    "record/signal_lead1_processed",
+    "record/signal_lead2_processed"
+  ],
+  "boundary_version": "cpsc_rpeak_half_open_v1"
+}

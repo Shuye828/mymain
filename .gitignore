@@ -1,0 +1,28 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+checkpoints/
+results/
+dataset/
+*.pt
+*.pth
+*.ckpt
+
+# Local ECG data and rebuildable artifacts
+data/raw/*
+data/index/*
+data/cache/*
+outputs/*
+!data/raw/.gitkeep
+!data/index/.gitkeep
+!data/cache/.gitkeep
+!outputs/.gitkeep
+
+# Test and tooling caches
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Header-audit reports
+*_header_audit.csv
+*_header_audit.json

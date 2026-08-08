@@ -1,0 +1,29 @@
+{
+  "experiment": "source_cpsc2021_ce",
+  "role": "source",
+  "dataset": "cpsc2021",
+  "data_root": "data/raw",
+  "index_path": "data/index/cpsc2021_windows.csv",
+  "output_dir": "outputs/stage3/source_cpsc2021_ce",
+  "model": {
+    "dim": 128,
+    "max_channel": 2,
+    "num_heads": 8,
+    "num_layers": 6,
+    "patch_size": 8,
+    "num_classes": 2
+  },
+  "training": {
+    "seed": 42,
+    "batch_size": 8,
+    "eval_batch_size": 16,
+    "num_workers": 0,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "epochs": 100,
+    "patience": 10,
+    "max_windows_per_subject_per_class": 500,
+    "tiny_per_class": 8,
+    "tiny_success_accuracy": 0.95
+  }
+}

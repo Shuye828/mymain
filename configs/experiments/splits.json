@@ -1,0 +1,23 @@
+{
+  "version": "subject_random_v1",
+  "seed": 42,
+  "source": {
+    "train": 0.70,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "target_inductive": {
+    "adaptation": 0.50,
+    "evaluation": 0.50,
+    "uses_rhythm_labels_for_assignment": false
+  },
+  "target_transductive": {
+    "split": "transductive",
+    "uses_rhythm_labels_for_assignment": false
+  },
+  "eligibility": {
+    "requires_signal": true,
+    "requires_annotation": true,
+    "requires_at_least_one_af_or_nonaf_interval": true
+  }
+}
