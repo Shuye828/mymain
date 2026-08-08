@@ -130,5 +130,6 @@ No model code is changed in stage 0. Later, in small independently tested steps:
   documented in `STAGE1_REPORT.md`.
 - Stage 2 preprocessing and Stage 3 CE-only source training infrastructure are
   implemented. Tiny-overfit and fixed-seed small runs passed for CPSC2021 and
-  LTAFDB; complete-split source baselines remain pending. `MedTS_TTT.py` is
-  still unchanged. See `STAGE2_REPORT.md` and `STAGE3_REPORT.md`.
+  LTAFDB. The formal CPSC2021 complete-split baseline is finished; formal
+  LTAFDB training remains pending. `MedTS_TTT.py` is still unchanged. See
+  `STAGE2_REPORT.md` and `STAGE3_REPORT.md`.

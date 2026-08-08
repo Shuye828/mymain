@@ -54,8 +54,9 @@ are complete. See `STAGE2_REPORT.md`.
 
 Partial completion record: the CE-only trainer, metrics, provenance-rich
 checkpoint/resume path, both tiny-overfit gates, and fixed-seed small runs for
-CPSC2021 and LTAFDB are complete. Full-split early-stopped training remains
-pending because the current host is CPU-only. See `STAGE3_REPORT.md`.
+CPSC2021 and LTAFDB are complete. The formal CPSC2021 full-split run completed
+with epoch 3 selected by validation macro-F1 and epoch 13 early stopping.
+Formal LTAFDB training remains pending. See `STAGE3_REPORT.md`.
 
 ### Stage 4 — source embeddings and disease direction
 

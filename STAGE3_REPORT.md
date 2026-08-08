@@ -70,6 +70,30 @@ subset. The clean recorded commit is `28fa3a3`.
 The results show decreasing loss and non-trivial source validation behavior on
 both input formats. They must not be cited as full-split baseline estimates.
 
+## Formal CPSC2021 full run
+
+The CE-only CPSC2021 source run completed on CPU with clean recorded commit
+`dfde997`. It used all 35,542 capped/balanced training samples per epoch and
+the complete validation and test splits. Early stopping selected epoch 3 and
+stopped after epoch 13 (ten consecutive non-improving validation epochs).
+Total runtime was 28,013.49 seconds (7 h 46 min 53 s).
+
+| Split | Support | Accuracy | Balanced accuracy | Macro-F1 | AUROC | AUPRC | Sensitivity | Specificity | Precision | MCC |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Validation | 23,679 | 0.9904 | 0.9912 | 0.9891 | 0.9993 | 0.9986 | 0.9934 | 0.9890 | 0.9775 | 0.9783 |
+| Test | 29,318 | 0.8909 | 0.9236 | 0.8775 | 0.9981 | 0.9992 | 0.8489 | 0.9983 | 0.9992 | 0.7809 |
+
+Validation confusion matrix: `[[15802, 176], [51, 7650]]`.
+Test confusion matrix: `[[8219, 14], [3186, 17899]]`.
+Metrics use the frozen 0.5 decision threshold; no test labels affected
+training, early stopping, checkpoint selection, or threshold selection.
+
+The authoritative artifacts are under
+`outputs/stage3/source_cpsc2021_ce/`: `best.pt` (epoch 3), `last.pt` (epoch
+13), `history.json`, `run_manifest.json`, and `result.json`.
+The SHA-256 of `best.pt` is
+`86928ba362974d33868622e0605e52a732f45e88d4007d17b54f297d0d69c3d7`.
+
 ## Full-run sizing and remaining work
 
 The formal loaders contain:
@@ -79,19 +103,15 @@ The formal loaders contain:
 | CPSC2021 | 35,542 / 4,443 | 23,679 / 1,480 | 29,318 / 1,833 |
 | LTAFDB | 40,332 / 5,042 | 97,399 / 6,088 | 104,601 / 6,538 |
 
-Only CPU is available in both inspected Conda environments. A real full-loader
-benchmark measured about 0.47 seconds per batch at the frozen batch sizes;
-batch 32 did not improve end-to-end throughput. The rough cost is about 46
-minutes per CPSC2021 epoch and 80 minutes per LTAFDB epoch, before the final
-test pass. Therefore full early-stopped source runs remain pending and should
-prefer a CUDA-capable host. They can be resumed safely from `last.pt`.
+Only CPU is available in both inspected Conda environments. CPSC2021 completed
+successfully on CPU; the full end-to-end run took about 7.8 hours. The larger
+LTAFDB validation/test splits make its formal run the remaining long-running
+Stage 3 task and a CUDA-capable host is preferred. It can be resumed safely
+from `last.pt`.
 
 Formal commands (no diagnostic caps) are:
 
 ```bash
-python scripts/train_source.py \
-  --config configs/experiments/source_cpsc2021_ce.json --device cuda
-
 python scripts/train_source.py \
   --config configs/experiments/source_ltafdb_ce.json --device cuda
 ```

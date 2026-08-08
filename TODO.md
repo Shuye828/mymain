@@ -121,7 +121,8 @@
   a real-data run from a checkpoint.
 - [x] Pass 16-window tiny-overfit gates for CPSC2021 and LTAFDB.
 - [x] Complete fixed-seed, class-balanced small runs for both source datasets.
-- [ ] Run full CPSC2021 training with complete validation and test evaluation.
+- [x] Run full CPSC2021 training with complete validation and test evaluation
+  (best epoch 3; stopped at epoch 13; test macro-F1 0.8775, AUROC 0.9981).
 - [ ] Run full LTAFDB training with complete validation and test evaluation.
 - [ ] Review both formal checkpoints before Stage 4.
 
