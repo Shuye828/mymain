@@ -57,3 +57,22 @@ def test_source_prototypes_require_both_classes() -> None:
 
     with pytest.raises(ValueError, match="both source classes"):
         accumulator.finalize()
+
+
+def test_source_accumulator_converts_after_cpu_transfer(monkeypatch) -> None:
+    features = torch.randn(2, 3)
+    labels = torch.tensor([0, 1])
+    original_to = torch.Tensor.to
+
+    def guarded_to(self, *args, **kwargs):
+        if kwargs.get("device") == "cpu" and kwargs.get("dtype") == torch.float64:
+            raise AssertionError("combined device and float64 conversion")
+        return original_to(self, *args, **kwargs)
+
+    monkeypatch.setattr(torch.Tensor, "to", guarded_to)
+    accumulator = SourcePrototypeAccumulator(3)
+    accumulator.update(features, labels)
+
+    result = accumulator.finalize()
+    assert result.nonaf_count == 1
+    assert result.af_count == 1

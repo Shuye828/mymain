@@ -45,7 +45,9 @@ class SourcePrototypeAccumulator:
             raise ValueError(
                 "source prototypes require visible binary source labels 0/1"
             )
-        cpu_features = features.detach().to(device="cpu", dtype=torch.float64)
+        # MPS cannot perform a direct device-and-float64 conversion. Move the
+        # tensor first, then accumulate in CPU float64 for stable class means.
+        cpu_features = features.detach().cpu().to(dtype=torch.float64)
         cpu_labels = labels.detach().to(device="cpu", dtype=torch.long)
         for label in (0, 1):
             mask = cpu_labels == label
