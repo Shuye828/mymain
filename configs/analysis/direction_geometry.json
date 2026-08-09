@@ -1,0 +1,35 @@
+{
+  "experiment": "stage5b_four_dataset_direction_geometry",
+  "role": "post_hoc_analysis",
+  "target_label_usage": "post-hoc mechanism analysis only",
+  "protocol": "EXPERIMENT_PLAN_SUPPLEMENT.md",
+  "protocol_sha256": "debc4b29db8ca6caed5940369bec6c4b213832ca0a6836bdc61150b657f24cc5",
+  "seed": 42,
+  "dataset_order": ["cpsc2021", "ltafdb", "afdb", "shdb-af"],
+  "selection": {
+    "method": "deterministic_hash_cap_per_subject_per_class",
+    "max_windows_per_subject_per_class": 500,
+    "primary_estimand": "window_weighted_over_selected_cohort",
+    "sensitivity_estimand": "subject_equal_over_selected_cohort"
+  },
+  "extraction": {"batch_size": 16, "num_workers": 0, "progress_every_batches": 250},
+  "datasets": {
+    "cpsc2021": {"index_path": "data/index/cpsc2021_windows.csv", "data_root": "data/raw"},
+    "ltafdb": {"index_path": "data/index/ltafdb_windows.csv", "data_root": "data/raw"},
+    "afdb": {"index_path": "data/index/afdb_windows.csv", "data_root": "data/raw"},
+    "shdb-af": {"index_path": "data/index/shdb-af_windows.csv", "data_root": "data/raw"}
+  },
+  "references": {
+    "cpsc2021": {
+      "source_config": "configs/experiments/source_cpsc2021_ce.json",
+      "checkpoint": "outputs/stage3/source_cpsc2021_ce/best.pt",
+      "checkpoint_sha256": "86928ba362974d33868622e0605e52a732f45e88d4007d17b54f297d0d69c3d7"
+    },
+    "ltafdb": {
+      "source_config": "configs/experiments/source_ltafdb_ce.json",
+      "checkpoint": "outputs/stage3/source_ltafdb_ce/best.pt",
+      "checkpoint_sha256": "b8834eab612b8b542e907f52c17ab767a631916ae5f70cfce7def0eae5b890ae"
+    }
+  },
+  "output_dir": "outputs/stage5b_direction_geometry"
+}
