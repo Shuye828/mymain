@@ -88,7 +88,8 @@
 ## Later stages
 
 - [x] Reproduce CE-only source baseline before representation losses.
-- [ ] Add feature export and source disease direction.
+- [x] Add backward-compatible feature export and source disease direction
+  from both reviewed formal checkpoints.
 - [ ] Add target GMM with reliability diagnostics.
 - [ ] Add SupCon and prototype losses independently.
 - [ ] Run ablations and directed cross-dataset experiments.
@@ -129,4 +130,21 @@
 - [x] Review both formal checkpoints before Stage 4.
 
 See `STAGE3_REPORT.md`. No target data or labels were accepted by the Stage 3
-trainer, `MedTS_TTT.py` remains unchanged, and Stage 3 is complete.
+trainer, and `MedTS_TTT.py` remained unchanged during every formal Stage 3
+run. Stage 4 subsequently added only a backward-compatible feature interface.
+
+## Stage 4 status
+
+- [x] Add `forward_features` and optional feature return without changing
+  checkpoint keys, logits, or CLSA-TTT mathematics.
+- [x] Implement and test a 64-dimensional normalized projection head without
+  using random untrained projection weights in formal artifacts.
+- [x] Export all deterministic capped source-training embeddings with labels
+  and per-window metadata for CPSC2021 and LTAFDB.
+- [x] Estimate source-only class prototypes, unit disease directions, and
+  prototype-midpoint fixed thresholds.
+- [x] Verify strict checkpoint compatibility, exact legacy-forward equality,
+  index/metadata alignment, finite unit-norm features, and clean provenance.
+
+See `STAGE4_REPORT.md`. Stage 4 is complete. Target data have not yet been
+projected and no target GMM or target-label evaluation has been performed.

@@ -132,5 +132,13 @@ No model code is changed in stage 0. Later, in small independently tested steps:
   Tiny-overfit, fixed-seed small runs, and formal complete-split baselines
   passed for both CPSC2021 and LTAFDB. The LTAFDB MPS run selected epoch 6,
   stopped at epoch 16, and achieved test macro-F1 0.8778 and AUROC 0.9898.
-  `MedTS_TTT.py` is still unchanged. See `STAGE2_REPORT.md` and
-  `STAGE3_REPORT.md`.
+  `MedTS_TTT.py` remained unchanged throughout those formal runs. See
+  `STAGE2_REPORT.md` and `STAGE3_REPORT.md`.
+- Stage 4 source representation export is complete. The original model now
+  exposes a backward-compatible feature path with unchanged parameters and
+  elementwise-identical logits. Formal CPSC2021 and LTAFDB artifacts contain
+  every capped source-training embedding, source-only prototypes, normalized
+  disease directions, and fixed prototype-midpoint thresholds. Formal
+  directions use trained 128-dimensional backbone features; the implemented
+  64-dimensional projection head remains unused until representation training.
+  See `STAGE4_REPORT.md`.

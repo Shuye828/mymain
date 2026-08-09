@@ -67,6 +67,15 @@ complete result files were reviewed. See `STAGE3_REPORT.md`.
 - Acceptance: unit-norm projection/direction, no validation/test samples in
   prototype estimates.
 
+Completion record: the two reviewed best checkpoints now expose an exactly
+backward-compatible feature path. All 35,542 CPSC2021 and 40,332 LTAFDB
+deterministic capped source-training windows were exported as finite unit-norm
+128-dimensional backbone embeddings with complete window metadata. Source-only
+prototypes, normalized disease directions, and prototype-midpoint thresholds
+were frozen with clean MPS provenance. The optional 64-dimensional projection
+head is implemented but is not used until it has trained weights. See
+`STAGE4_REPORT.md`.
+
 ### Stage 5 — target boundary reconstruction
 
 - Project unlabelled target embeddings onto the frozen source direction.
