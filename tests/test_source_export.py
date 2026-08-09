@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 import numpy as np
+import pytest
 import torch
 
 import src.data.ecg_dataset as dataset_module
@@ -51,11 +52,16 @@ def test_source_export_preserves_metadata_and_provenance(
     class FakeAdapter:
         def read_signal(self, record_id: str, start: int, end: int) -> np.ndarray:
             label = float(record_id.split("_")[1])
+            record_index = float(record_id.split("_")[2])
             time = np.arange(end - start, dtype=np.float64) / 200.0
             return np.stack(
                 [
-                    np.sin(2 * np.pi * (4 + label) * time) + label,
-                    np.cos(2 * np.pi * (6 + label) * time) - label,
+                    np.sin(
+                        2 * np.pi * (4 + label + 0.1 * record_index) * time
+                    ),
+                    np.cos(
+                        2 * np.pi * (6 + label + 0.1 * record_index) * time
+                    ),
                 ]
             )
 
@@ -128,3 +134,22 @@ def test_source_export_preserves_metadata_and_provenance(
     assert manifest["source_split"] == "train"
     assert manifest["index_sha256"] == sha256_file(index_path)
     assert manifest["checkpoint_sha256"] == sha256_file(checkpoint_path)
+    direction = result["direction"]
+    assert direction["source_fixed_threshold_rule"] == (
+        "source_prototype_projection_midpoint"
+    )
+    assert direction["pooled_separation"] > 0
+    assert direction["nonaf_projection_mean"] < direction["source_fixed_threshold"]
+    assert direction["source_fixed_threshold"] < direction["af_projection_mean"]
+
+
+def test_diagnostic_export_requires_separate_output() -> None:
+    with pytest.raises(ValueError, match="explicit output override"):
+        export_source_direction(
+            {
+                "role": "source_direction",
+                "representation": {"kind": "backbone_l2"},
+            },
+            device_request="cpu",
+            max_batches=1,
+        )

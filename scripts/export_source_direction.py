@@ -26,6 +26,8 @@ def main() -> int:
         help="diagnostic only; formal exports must omit this option",
     )
     args = parser.parse_args()
+    if args.max_batches is not None and args.output_dir is None:
+        parser.error("--max-batches requires --output-dir")
     with args.config.open(encoding="utf-8") as handle:
         config = json.load(handle)
     result = export_source_direction(

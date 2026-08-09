@@ -110,6 +110,10 @@ def export_source_direction(
     config = deepcopy(config)
     if config.get("role") != "source_direction":
         raise ValueError("feature export requires role='source_direction'")
+    if max_batches is not None and output_override is None:
+        raise ValueError(
+            "diagnostic max_batches requires an explicit output override"
+        )
     if config.get("representation", {}).get("kind") != "backbone_l2":
         raise ValueError("formal source direction requires backbone_l2 features")
     source_config_path = Path(config["source_config"])
@@ -222,6 +226,22 @@ def export_source_direction(
     af_projection_mean = float(projections[labels_array == 1].mean())
     if not af_projection_mean > nonaf_projection_mean:
         raise RuntimeError("estimated disease direction has reversed source means")
+    nonaf_projection_std = float(projections[labels_array == 0].std(ddof=0))
+    af_projection_std = float(projections[labels_array == 1].std(ddof=0))
+    pooled_std = float(
+        np.sqrt(
+            (nonaf_projection_std**2 + af_projection_std**2) / 2.0
+        )
+    )
+    if not np.isfinite(pooled_std):
+        raise RuntimeError("source projection variance is non-finite")
+    projection_mean_gap = af_projection_mean - nonaf_projection_mean
+    pooled_separation = (
+        None if pooled_std <= 1e-12 else projection_mean_gap / pooled_std
+    )
+    source_fixed_threshold = (
+        nonaf_projection_mean + af_projection_mean
+    ) / 2.0
 
     output_dir = output_override or Path(config["output_dir"])
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -249,7 +269,12 @@ def export_source_direction(
         "direction_norm": float(torch.linalg.vector_norm(direction.direction)),
         "nonaf_projection_mean": nonaf_projection_mean,
         "af_projection_mean": af_projection_mean,
-        "projection_mean_gap": af_projection_mean - nonaf_projection_mean,
+        "nonaf_projection_std": nonaf_projection_std,
+        "af_projection_std": af_projection_std,
+        "projection_mean_gap": projection_mean_gap,
+        "pooled_separation": pooled_separation,
+        "source_fixed_threshold": source_fixed_threshold,
+        "source_fixed_threshold_rule": "source_prototype_projection_midpoint",
     }
     _write_json(direction_path, direction_payload)
     runtime_seconds = time.perf_counter() - started
