@@ -1,0 +1,36 @@
+{
+  "experiment": "stage5a_head_vs_direction",
+  "role": "post_hoc_analysis",
+  "protocol": "EXPERIMENT_PLAN_SUPPLEMENT.md",
+  "protocol_sha256": "debc4b29db8ca6caed5940369bec6c4b213832ca0a6836bdc61150b657f24cc5",
+  "seed": 42,
+  "extraction": {
+    "batch_size": 16,
+    "num_workers": 0,
+    "progress_every_batches": 250
+  },
+  "equivalence_rule": {
+    "min_direction_cosine": 0.95,
+    "min_split_spearman": 0.98
+  },
+  "sources": {
+    "cpsc2021": {
+      "source_config": "configs/experiments/source_cpsc2021_ce.json",
+      "checkpoint": "outputs/stage3/source_cpsc2021_ce/best.pt",
+      "direction": "outputs/stage4/source_cpsc2021_direction/disease_direction.json",
+      "target_dataset": "shdb-af",
+      "target_index": "data/index/shdb-af_windows.csv",
+      "target_data_root": "data/raw",
+      "output_dir": "outputs/stage5a_head_vs_direction/cpsc2021"
+    },
+    "ltafdb": {
+      "source_config": "configs/experiments/source_ltafdb_ce.json",
+      "checkpoint": "outputs/stage3/source_ltafdb_ce/best.pt",
+      "direction": "outputs/stage4/source_ltafdb_direction/disease_direction.json",
+      "target_dataset": "afdb",
+      "target_index": "data/index/afdb_windows.csv",
+      "target_data_root": "data/raw",
+      "output_dir": "outputs/stage5a_head_vs_direction/ltafdb"
+    }
+  }
+}
