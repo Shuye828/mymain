@@ -87,7 +87,7 @@
 
 ## Later stages
 
-- [ ] Reproduce CE-only source baseline before representation losses.
+- [x] Reproduce CE-only source baseline before representation losses.
 - [ ] Add feature export and source disease direction.
 - [ ] Add target GMM with reliability diagnostics.
 - [ ] Add SupCon and prototype losses independently.
@@ -123,8 +123,10 @@
 - [x] Complete fixed-seed, class-balanced small runs for both source datasets.
 - [x] Run full CPSC2021 training with complete validation and test evaluation
   (best epoch 3; stopped at epoch 13; test macro-F1 0.8775, AUROC 0.9981).
-- [ ] Run full LTAFDB training with complete validation and test evaluation.
-- [ ] Review both formal checkpoints before Stage 4.
+- [x] Run full LTAFDB training with complete validation and test evaluation
+  on MPS (best epoch 6; stopped at epoch 16; test macro-F1 0.8778, AUROC
+  0.9898).
+- [x] Review both formal checkpoints before Stage 4.
 
 See `STAGE3_REPORT.md`. No target data or labels were accepted by the Stage 3
-trainer, and `MedTS_TTT.py` remains unchanged.
+trainer, `MedTS_TTT.py` remains unchanged, and Stage 3 is complete.

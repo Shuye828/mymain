@@ -118,9 +118,9 @@ No model code is changed in stage 0. Later, in small independently tested steps:
 
 ## Current limitations
 
-- The active environment now has persistent `wfdb==4.1.2`. Both inspected
-  Conda environments are CPU-only (`MPS` and CUDA unavailable), which makes
-  full Stage 3 early-stopped training a multi-hour task.
+- The active environment has persistent `wfdb==4.1.2`. MPS is unavailable
+  inside the sandbox but was verified and used successfully outside the
+  sandbox with Python 3.12.4 and PyTorch 2.6.0 for the formal LTAFDB run.
 - The local experiment repository now has Git identity. This records future
   code state but cannot retrospectively prove the upstream commit of the
   originally supplied files.
@@ -128,8 +128,9 @@ No model code is changed in stage 0. Later, in small independently tested steps:
   byte-verified against the official WFDB release.
 - Dataset-specific rhythm parsing and subject-ID extraction are implemented and
   documented in `STAGE1_REPORT.md`.
-- Stage 2 preprocessing and Stage 3 CE-only source training infrastructure are
-  implemented. Tiny-overfit and fixed-seed small runs passed for CPSC2021 and
-  LTAFDB. The formal CPSC2021 complete-split baseline is finished; formal
-  LTAFDB training remains pending. `MedTS_TTT.py` is still unchanged. See
-  `STAGE2_REPORT.md` and `STAGE3_REPORT.md`.
+- Stage 2 preprocessing and Stage 3 CE-only source training are complete.
+  Tiny-overfit, fixed-seed small runs, and formal complete-split baselines
+  passed for both CPSC2021 and LTAFDB. The LTAFDB MPS run selected epoch 6,
+  stopped at epoch 16, and achieved test macro-F1 0.8778 and AUROC 0.9898.
+  `MedTS_TTT.py` is still unchanged. See `STAGE2_REPORT.md` and
+  `STAGE3_REPORT.md`.

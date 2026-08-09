@@ -94,7 +94,32 @@ The authoritative artifacts are under
 The SHA-256 of `best.pt` is
 `86928ba362974d33868622e0605e52a732f45e88d4007d17b54f297d0d69c3d7`.
 
-## Full-run sizing and remaining work
+## Formal LTAFDB full run
+
+The CE-only LTAFDB source run completed on Apple MPS with clean recorded commit
+`1b37c3e`. It used all 40,332 capped/balanced training samples per epoch and
+the complete validation and test splits. Early stopping selected epoch 6 and
+stopped after epoch 16 (ten consecutive non-improving validation epochs).
+Total runtime was 26,772.77 seconds (7 h 26 min 13 s).
+
+| Split | Support | Accuracy | Balanced accuracy | Macro-F1 | AUROC | AUPRC | Sensitivity | Specificity | Precision | MCC |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Validation | 97,399 | 0.9688 | 0.9599 | 0.9653 | 0.9958 | 0.9978 | 0.9898 | 0.9300 | 0.9632 | 0.9314 |
+| Test | 104,601 | 0.8928 | 0.9174 | 0.8778 | 0.9898 | 0.9802 | 0.9729 | 0.8619 | 0.7314 | 0.7749 |
+
+Validation confusion matrix: `[[31809, 2393], [647, 62550]]`.
+Test confusion matrix: `[[65016, 10420], [790, 28375]]`.
+Metrics use the frozen 0.5 decision threshold; no test labels affected
+training, early stopping, checkpoint selection, or threshold selection.
+
+The authoritative artifacts are under
+`outputs/stage3/source_ltafdb_ce/`: `best.pt` (epoch 6), `last.pt` (epoch 16),
+`history.json`, `run_manifest.json`, and `result.json`. The manifest records
+Python 3.12.4, PyTorch 2.6.0, device `mps`, PID 99380, the clean Git commit, and
+the LTAFDB index SHA-256. The SHA-256 of `best.pt` is
+`b8834eab612b8b542e907f52c17ab767a631916ae5f70cfce7def0eae5b890ae`.
+
+## Full-run sizing and Stage 3 completion
 
 The formal loaders contain:
 
@@ -103,18 +128,15 @@ The formal loaders contain:
 | CPSC2021 | 35,542 / 4,443 | 23,679 / 1,480 | 29,318 / 1,833 |
 | LTAFDB | 40,332 / 5,042 | 97,399 / 6,088 | 104,601 / 6,538 |
 
-Only CPU is available in both inspected Conda environments. CPSC2021 completed
-successfully on CPU; the full end-to-end run took about 7.8 hours. The larger
-LTAFDB validation/test splits make its formal run the remaining long-running
-Stage 3 task and a CUDA-capable host is preferred. It can be resumed safely
-from `last.pt`.
-
-Formal commands (no diagnostic caps) are:
+Both formal runs are complete. CPSC2021 ran on CPU and LTAFDB ran outside the
+sandbox on Apple MPS. The command used for LTAFDB, with no diagnostic caps,
+was:
 
 ```bash
 python scripts/train_source.py \
-  --config configs/experiments/source_ltafdb_ce.json --device cuda
+  --config configs/experiments/source_ltafdb_ce.json --device mps
 ```
 
-Do not begin Stage 4 until both formal source checkpoints and complete-split
-metrics have been reviewed.
+Both formal source checkpoints, complete-split metrics, manifests, histories,
+early-stopping states, confusion-matrix totals, and result files have been
+reviewed. Stage 3 is complete; Stage 4 may begin.

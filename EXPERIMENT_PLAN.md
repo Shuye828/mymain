@@ -52,11 +52,12 @@ are complete. See `STAGE2_REPORT.md`.
 - Acceptance: overfit a tiny subset, resume checkpoints, reproduce a fixed-seed
   small run, and never inspect target labels during selection.
 
-Partial completion record: the CE-only trainer, metrics, provenance-rich
-checkpoint/resume path, both tiny-overfit gates, and fixed-seed small runs for
-CPSC2021 and LTAFDB are complete. The formal CPSC2021 full-split run completed
-with epoch 3 selected by validation macro-F1 and epoch 13 early stopping.
-Formal LTAFDB training remains pending. See `STAGE3_REPORT.md`.
+Completion record: the CE-only trainer, metrics, provenance-rich
+checkpoint/resume path, both tiny-overfit gates, fixed-seed small runs, and
+both formal complete-split baselines are complete. CPSC2021 selected epoch 3
+and stopped at epoch 13 (test macro-F1 0.8775); LTAFDB selected epoch 6 and
+stopped at epoch 16 on MPS (test macro-F1 0.8778). Both formal checkpoints and
+complete result files were reviewed. See `STAGE3_REPORT.md`.
 
 ### Stage 4 — source embeddings and disease direction
 
