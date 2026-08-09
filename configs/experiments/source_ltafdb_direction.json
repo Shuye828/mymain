@@ -1,0 +1,17 @@
+{
+  "experiment": "source_ltafdb_direction",
+  "role": "source_direction",
+  "dataset": "ltafdb",
+  "source_config": "configs/experiments/source_ltafdb_ce.json",
+  "checkpoint": "outputs/stage3/source_ltafdb_ce/best.pt",
+  "output_dir": "outputs/stage4/source_ltafdb_direction",
+  "representation": {
+    "kind": "backbone_l2",
+    "expected_dim": 128
+  },
+  "export": {
+    "batch_size": 16,
+    "num_workers": 0,
+    "progress_every_batches": 250
+  }
+}

@@ -33,12 +33,41 @@ class SourceMedTSTTT(nn.Module):
             num_classes=num_classes,
         )
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    @staticmethod
+    def _validate_input(x: torch.Tensor) -> None:
         if x.ndim != 3:
             raise ValueError(f"expected [B,C,T], got {tuple(x.shape)}")
         if x.shape[1] != 2:
             raise ValueError(f"expected two ECG channels, got {x.shape[1]}")
-        logits = self.backbone(x)
+
+    def forward_features(self, x: torch.Tensor) -> torch.Tensor:
+        """Return the unprojected mean-pooled MedTS-TTT embedding."""
+
+        self._validate_input(x)
+        features = self.backbone.forward_features(x)
+        expected = (x.shape[0], self.backbone.classification_head.in_features)
+        if features.shape != expected:
+            raise ValueError(f"unexpected feature shape {tuple(features.shape)}")
+        return features
+
+    def forward(
+        self, x: torch.Tensor, return_features: bool = False
+    ) -> torch.Tensor | tuple[torch.Tensor, torch.Tensor]:
+        self._validate_input(x)
+        if return_features:
+            logits, features = self.backbone(x, return_features=True)
+        else:
+            logits = self.backbone(x)
         if logits.shape != (x.shape[0], 2):
             raise ValueError(f"unexpected logits shape {tuple(logits.shape)}")
+        if return_features:
+            expected = (
+                x.shape[0],
+                self.backbone.classification_head.in_features,
+            )
+            if features.shape != expected:
+                raise ValueError(
+                    f"unexpected feature shape {tuple(features.shape)}"
+                )
+            return logits, features
         return logits

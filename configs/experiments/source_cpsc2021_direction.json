@@ -1,0 +1,17 @@
+{
+  "experiment": "source_cpsc2021_direction",
+  "role": "source_direction",
+  "dataset": "cpsc2021",
+  "source_config": "configs/experiments/source_cpsc2021_ce.json",
+  "checkpoint": "outputs/stage3/source_cpsc2021_ce/best.pt",
+  "output_dir": "outputs/stage4/source_cpsc2021_direction",
+  "representation": {
+    "kind": "backbone_l2",
+    "expected_dim": 128
+  },
+  "export": {
+    "batch_size": 16,
+    "num_workers": 0,
+    "progress_every_batches": 250
+  }
+}

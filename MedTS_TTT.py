@@ -138,7 +138,9 @@ class MedTSTTT(nn.Module):
         ])
         self.classification_head = nn.Linear(dim, num_classes)
 
-    def forward(self, x):
+    def forward_features(self, x):
+        """Return the mean-pooled backbone embedding before classification."""
+
         b, c, l = x.shape
         # ----------------------------------------Z-Score---------------------------------------------------------------
         x_mean = torch.mean(x, dim=-1, keepdim=True)
@@ -158,8 +160,14 @@ class MedTSTTT(nn.Module):
         for layer in self.layers:
             x = layer(x)
         x = torch.mean(x, dim=1, keepdim=False)
-        pre = self.classification_head(x)
-        return pre
+        return x
+
+    def forward(self, x, return_features=False):
+        features = self.forward_features(x)
+        logits = self.classification_head(features)
+        if return_features:
+            return logits, features
+        return logits
 
 
 if __name__ == "__main__":
