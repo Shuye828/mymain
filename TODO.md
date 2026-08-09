@@ -190,10 +190,31 @@ and 0.9025, angles 31.21 and 25.52 degrees, and minimum split Spearman values
 0.7873 and 0.9459. Both are formally `clearly_different` under the pre-frozen
 rule: the prototype and head are strongly related but not equivalent.
 
+## Stage 5B status
+
+- [x] Freeze one deterministic four-dataset cohort with at most 500 windows per
+  subject and class, shared by both reference models.
+- [x] Extract L2-normalized embeddings for CPSC2021, LTAFDB, AFDB, and SHDB-AF
+  in the frozen `M_CPSC` and `M_LTAF` feature spaces.
+- [x] Use all four datasets' labels only for post-hoc mechanism analysis and
+  record that use explicitly in artifacts and manifests.
+- [x] Compute 4 x 4 disease-direction cosine and absolute centroid-distance
+  matrices with window-weighted primary and subject-equal sensitivity results.
+- [x] Save CSV matrices, feature summaries, hashes, manifests, and visually
+  inspected four-panel heatmaps.
+- [x] Run 59 unit/regression tests and both real-data MPS smoke/formal paths.
+
+See `STAGE5B_REPORT.md`. Across the six dataset pairs, window-weighted disease
+direction cosines were 0.9443–0.9945 in `M_CPSC` and 0.9841–0.9929 in `M_LTAF`,
+while dataset-centroid distances remained 0.1264–0.4541 and 0.1631–0.3203.
+Subject-equal results preserved the high direction alignment. This supports the
+post-hoc mechanism hypothesis that absolute domain location shifts while the
+relative AF-minus-non-AF direction remains substantially more stable.
+
 ## Supplement execution order
 
 - [x] Stage 5A — Direction vs Linear Head.
-- [ ] Stage 5B — Four-Dataset Direction Geometry.
+- [x] Stage 5B — Four-Dataset Direction Geometry.
 - [ ] Stage 5C — Strong Source Baseline.
 - [ ] Stage 6A — CE + SupCon.
 - [ ] Stage 6B — CE + Prototype/Center.
