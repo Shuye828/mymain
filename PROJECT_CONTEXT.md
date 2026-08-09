@@ -142,3 +142,11 @@ No model code is changed in stage 0. Later, in small independently tested steps:
   directions use trained 128-dimensional backbone features; the implemented
   64-dimensional projection head remains unused until representation training.
   See `STAGE4_REPORT.md`.
+- Stage 5 target boundary reconstruction is complete for the two initial
+  directed transfers. The fitting process does not parse target label fields;
+  a separate evaluator accesses labels only after verifying frozen score, GMM,
+  and target-index hashes. Both inductive and transductive GMMs passed all
+  predefined reliability gates. Results show dataset-dependent operating-point
+  trade-offs rather than universal gains; see `STAGE5_REPORT.md`. Stage 6 must
+  keep representation-loss selection source-only and must not tune against
+  these target outcomes.

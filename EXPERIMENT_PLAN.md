@@ -8,8 +8,9 @@ are frozen, for final metrics and post-hoc analysis.
 
 Every run records code/version identity, complete configuration, dataset
 versions, split manifest, random seed, data counts, exclusions, runtime, and
-software environment. Because this directory is not currently a Git work tree,
-stage 0 records that limitation rather than inventing a commit identifier.
+software environment. A local Git repository now records experiment code
+identity; it does not retrospectively establish the unknown upstream commit of
+the originally supplied files.
 
 ## Staged implementation
 
@@ -87,6 +88,14 @@ head is implemented but is not used until it has trained weights. See
   repair.
 - Acceptance: synthetic-mixture tests and explicit transductive versus
   inductive-holdout APIs.
+
+Completion record: fitting and evaluation are separate commands. Target fitting
+does not parse label fields, freezes score/GMM hashes, and supports both required
+protocols. Formal LTAFDB -> AFDB and CPSC2021 -> SHDB-AF runs completed at clean
+commit `8594e11`; all four mixtures passed the predefined BIC, separation,
+entropy, component-weight, and initialization-stability gates. B4 showed
+metric-specific operating-point trade-offs, documented without label-assisted
+repair in `STAGE5_REPORT.md`.
 
 ### Stage 6 — representation losses
 

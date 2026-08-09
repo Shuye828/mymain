@@ -90,7 +90,7 @@
 - [x] Reproduce CE-only source baseline before representation losses.
 - [x] Add backward-compatible feature export and source disease direction
   from both reviewed formal checkpoints.
-- [ ] Add target GMM with reliability diagnostics.
+- [x] Add target GMM with reliability diagnostics.
 - [ ] Add SupCon and prototype losses independently.
 - [ ] Run ablations and directed cross-dataset experiments.
 
@@ -146,5 +146,26 @@ run. Stage 4 subsequently added only a backward-compatible feature interface.
 - [x] Verify strict checkpoint compatibility, exact legacy-forward equality,
   index/metadata alignment, finite unit-norm features, and clean provenance.
 
-See `STAGE4_REPORT.md`. Stage 4 is complete. Target data have not yet been
-projected and no target GMM or target-label evaluation has been performed.
+See `STAGE4_REPORT.md`. At the Stage 4 boundary, target data had not yet been
+projected and no target GMM or target-label evaluation had been performed.
+
+## Stage 5 status
+
+- [x] Implement strict target loading that never parses target label fields.
+- [x] Add one-/two-component one-dimensional GMM fitting with fixed
+  initialization, regularization, and reliability gates.
+- [x] Separate label-free fitting from post-freeze label evaluation with
+  archive and index hash verification.
+- [x] Run both inductive-holdout and transductive protocols for
+  LTAFDB -> AFDB and CPSC2021 -> SHDB-AF on MPS.
+- [x] Compare frozen B2 source classifier, B3 source direction, and B4 target
+  GMM predictions without target-assisted threshold repair.
+- [x] Record reliability diagnostics, complete metrics, provenance, hashes,
+  and metric-specific limitations.
+
+See `STAGE5_REPORT.md`. Both formal GMM artifacts passed all frozen reliability
+criteria. B4 produced operating-point trade-offs rather than an across-metric
+win: it improved AFDB inductive accuracy/macro-F1 and SHDB-AF inductive
+sensitivity/balanced accuracy, while reducing other metrics. The next task is
+Stage 6 supervised contrastive loss, followed by prototype/center loss as a
+separate experiment; target results must not be used for hyperparameter tuning.
