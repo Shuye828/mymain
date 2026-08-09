@@ -166,6 +166,38 @@ projected and no target GMM or target-label evaluation had been performed.
 See `STAGE5_REPORT.md`. Both formal GMM artifacts passed all frozen reliability
 criteria. B4 produced operating-point trade-offs rather than an across-metric
 win: it improved AFDB inductive accuracy/macro-F1 and SHDB-AF inductive
-sensitivity/balanced accuracy, while reducing other metrics. The next task is
-Stage 6 supervised contrastive loss, followed by prototype/center loss as a
-separate experiment; target results must not be used for hyperparameter tuning.
+sensitivity/balanced accuracy, while reducing other metrics. The former plan to
+start Stage 6 immediately is superseded by `EXPERIMENT_PLAN_SUPPLEMENT.md`.
+
+## Stage 5A status
+
+- [x] Freeze the post-Stage-5 supplement and its equivalence thresholds before
+  formal analysis.
+- [x] Extract `d_head = normalize(w_AF - w_nonAF)` from both reviewed source
+  checkpoints and compare it with the frozen Stage 4 prototype direction.
+- [x] Freeze exact prototype scores and classifier logit differences for source
+  validation, source test, and the available target evaluation split.
+- [x] Compute direction cosine/angle and per-split Pearson/Spearman without
+  target labels.
+- [x] Join labels only after score/hash freezing and compute continuous-score
+  AUROC/AUPRC as post-hoc analysis.
+- [x] Save unified metrics, scatter plots, class histograms, manifests, hashes,
+  and complete per-window identity.
+- [x] Run 53 unit/regression tests and both real-data MPS smoke paths.
+
+See `STAGE5A_REPORT.md`. CPSC2021 and LTAFDB yielded direction cosines 0.8553
+and 0.9025, angles 31.21 and 25.52 degrees, and minimum split Spearman values
+0.7873 and 0.9459. Both are formally `clearly_different` under the pre-frozen
+rule: the prototype and head are strongly related but not equivalent.
+
+## Supplement execution order
+
+- [x] Stage 5A — Direction vs Linear Head.
+- [ ] Stage 5B — Four-Dataset Direction Geometry.
+- [ ] Stage 5C — Strong Source Baseline.
+- [ ] Stage 6A — CE + SupCon.
+- [ ] Stage 6B — CE + Prototype/Center.
+- [ ] Stage 6C — Combined loss only if 6A or 6B is effective.
+- [ ] Stage 7 — Target Boundary Reconstruction v2.
+- [ ] Stage 8 — Frozen four-dataset benchmark.
+- [ ] Stage 9 — Patient-level statistics and final tables.
