@@ -6,7 +6,7 @@ import csv
 import hashlib
 import heapq
 from collections import Counter
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Sequence
 
@@ -120,13 +120,37 @@ def load_window_rows(
 def load_unlabeled_target_rows(
     paths: Iterable[Path], *, target_split: str
 ) -> list[WindowRow]:
-    """Load target inputs with rhythm and binary labels removed from the API."""
+    """Load target inputs without reading either target-label CSV field."""
 
-    rows = load_window_rows(paths, target_split=target_split)
-    return [
-        replace(row, binary_label=-1, rhythm_label="__HIDDEN_TARGET_LABEL__")
-        for row in rows
-    ]
+    rows: list[WindowRow] = []
+    for path in paths:
+        with Path(path).open(encoding="utf-8", newline="") as handle:
+            for item in csv.DictReader(handle):
+                if item["target_split"] != target_split:
+                    continue
+                rows.append(
+                    WindowRow(
+                        dataset=item["dataset"],
+                        record_id=item["record_id"],
+                        subject_id=item["subject_id"],
+                        start_sample=int(item["start_sample"]),
+                        end_sample=int(item["end_sample"]),
+                        fs_original=float(item["fs_original"]),
+                        binary_label=-1,
+                        rhythm_label="__HIDDEN_TARGET_LABEL__",
+                        source_split=item["source_split"],
+                        target_split=item["target_split"],
+                    )
+                )
+    rows.sort(
+        key=lambda row: (
+            row.dataset,
+            row.subject_id,
+            row.record_id,
+            row.start_sample,
+        )
+    )
+    return rows
 
 
 class ECGWindowDataset(Dataset):
@@ -179,6 +203,7 @@ class ECGWindowDataset(Dataset):
                 "record_id": row.record_id,
                 "window_start": row.start_sample,
                 "fs_original": row.fs_original,
+                "target_split": row.target_split,
             },
         }
 

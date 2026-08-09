@@ -91,6 +91,24 @@ def test_target_loader_removes_labels_and_forbids_class_cap(tmp_path: Path) -> N
         raise AssertionError("target class-aware cap was unexpectedly allowed")
 
 
+def test_target_loader_does_not_parse_label_fields(tmp_path: Path) -> None:
+    path = tmp_path / "index.csv"
+    _write_index(path)
+    contents = path.read_text(encoding="utf-8")
+    path.write_text(
+        contents.replace(",0,fixture,", ",NOT_READ,ALSO_NOT_READ,").replace(
+            ",1,fixture,", ",NOT_READ,ALSO_NOT_READ,"
+        ),
+        encoding="utf-8",
+    )
+
+    rows = load_unlabeled_target_rows([path], target_split="adaptation")
+
+    assert len(rows) == 20
+    assert {row.binary_label for row in rows} == {-1}
+    assert {row.rhythm_label for row in rows} == {"__HIDDEN_TARGET_LABEL__"}
+
+
 def test_dataset_returns_processed_shape_and_hides_target_label(monkeypatch) -> None:
     class FakeAdapter:
         def read_signal(self, record_id: str, start: int, end: int) -> np.ndarray:
@@ -121,3 +139,4 @@ def test_dataset_returns_processed_shape_and_hides_target_label(monkeypatch) -> 
     assert item["x"].dtype.is_floating_point
     assert item["y"].item() == -1
     assert "binary_label" not in item["metadata"]
+    assert item["metadata"]["target_split"] == "adaptation"

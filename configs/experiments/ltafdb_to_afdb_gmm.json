@@ -1,0 +1,33 @@
+{
+  "experiment": "ltafdb_to_afdb_gmm",
+  "role": "target_gmm",
+  "source_dataset": "ltafdb",
+  "target_dataset": "afdb",
+  "source_config": "configs/experiments/source_ltafdb_ce.json",
+  "checkpoint": "outputs/stage3/source_ltafdb_ce/best.pt",
+  "direction": "outputs/stage4/source_ltafdb_direction/disease_direction.json",
+  "target_index": "data/index/afdb_windows.csv",
+  "target_data_root": "data/raw",
+  "output_dir": "outputs/stage5/ltafdb_to_afdb_gmm",
+  "protocols": ["inductive_holdout", "transductive"],
+  "seed": 42,
+  "extraction": {
+    "batch_size": 16,
+    "num_workers": 0,
+    "progress_every_batches": 250
+  },
+  "gmm": {
+    "n_components": 2,
+    "covariance_type": "full",
+    "n_init": 20,
+    "reg_covar": 0.0001,
+    "stability_runs": 5
+  },
+  "reliability": {
+    "min_delta_bic": 10.0,
+    "min_pooled_separation": 2.0,
+    "max_normalized_entropy": 0.5,
+    "min_component_weight": 0.05,
+    "min_initialization_agreement": 0.98
+  }
+}
