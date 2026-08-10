@@ -1,0 +1,32 @@
+{
+  "experiment": "stage5c_strong_source_baseline",
+  "role": "source_threshold_baseline",
+  "protocol": "EXPERIMENT_PLAN_UPDATE_AFTER_STAGE5B.md",
+  "protocol_sha256": "5ba2c6798e5b2e2c906ede61ed0428e212c389d14f21af2c751349657af8c36f",
+  "threshold_selection_label_scope": "source_validation_only",
+  "adaptation_time_target_label_access": "prohibited",
+  "development_transfers_only": true,
+  "threshold_selection": {
+    "primary": "argmax_balanced_accuracy",
+    "tie_break": "max_macro_f1_then_closest_fixed_then_lower_threshold"
+  },
+  "sources": {
+    "cpsc2021": {
+      "source_config": "configs/experiments/source_cpsc2021_ce.json",
+      "checkpoint": "outputs/stage3/source_cpsc2021_ce/best.pt",
+      "direction": "outputs/stage4/source_cpsc2021_direction/disease_direction.json",
+      "stage5a_score_dir": "outputs/stage5a_head_vs_direction/cpsc2021",
+      "target_dataset": "shdb-af",
+      "target_index": "data/index/shdb-af_windows.csv"
+    },
+    "ltafdb": {
+      "source_config": "configs/experiments/source_ltafdb_ce.json",
+      "checkpoint": "outputs/stage3/source_ltafdb_ce/best.pt",
+      "direction": "outputs/stage4/source_ltafdb_direction/disease_direction.json",
+      "stage5a_score_dir": "outputs/stage5a_head_vs_direction/ltafdb",
+      "target_dataset": "afdb",
+      "target_index": "data/index/afdb_windows.csv"
+    }
+  },
+  "output_dir": "outputs/stage5c_strong_source_baseline"
+}
