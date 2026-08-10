@@ -254,6 +254,30 @@ four-dataset shared axes. Subject-equal results are nearly identical. This
 supports source-specific linear-head rotation relative to the compact shared
 disease geometry, without claiming universal prototype-score superiority.
 
+## Stage 5D status
+
+- [x] Reuse the exact frozen Stage 5B cohort for both reference models.
+- [x] Extract and hash label-free disease-axis score archives before parsing
+  any label.
+- [x] Measure class-conditional means, variances, gap, pooled separation,
+  overlap, prevalence, AUROC, and AUPRC for all eight model/dataset pairs.
+- [x] Compare frozen P0/P1 thresholds with post-hoc target oracle thresholds
+  and quantify boundary drift.
+- [x] Save complete CSV/JSON statistics, manifests, hashes, and visually
+  inspected density figures.
+- [x] Run 72 unit/regression tests, two real MPS smoke paths, and two formal
+  199,923-window MPS extractions at clean commit `6543c13`.
+- [ ] Patient-level direction bootstrap (optional, non-blocking supplement).
+- [ ] Label-permutation null (optional, non-blocking supplement).
+
+See `STAGE5D_REPORT.md`. Disease-axis orientation transferred to every dataset,
+but target gaps contracted to 44%--81% of the corresponding source gap. In
+`M_LTAF`, all three cross-domain AUROCs remained above 0.93 while target-oracle
+thresholds shifted by +0.319 to +0.540 relative to P1. The Decision Gate is a
+qualified Case B: prioritize label-free Stage 6B boundary reconstruction, with
+Stage 6A retained later as an auxiliary representation ablation because
+`M_CPSC -> LTAFDB/AFDB` still shows material ranking/separation limitations.
+
 ## Post-Stage-5B execution order
 
 The task priority below supersedes the earlier post-Stage-5 supplement order
@@ -263,14 +287,15 @@ and follows `EXPERIMENT_PLAN_UPDATE_AFTER_STAGE5B.md`.
 - [x] Stage 5B — Four-Dataset Direction Geometry.
 - [x] Stage 5C — Strong Source Baseline (H0/H1/P0/P1).
 - [x] Stage 5B+ — Source Head vs Shared Cross-Dataset Disease Axis.
-- [ ] Stage 5D — Disease-Axis Distribution & Boundary Shift.
-  - [ ] Class-conditional means, variances, gap, separation, and prevalence.
-  - [ ] Source fixed/source-val/target-oracle thresholds and boundary drift.
-  - [ ] Density figures using the unchanged Stage 5B cohort.
+- [x] Stage 5D — Disease-Axis Distribution & Boundary Shift.
+  - [x] Class-conditional means, variances, gap, separation, and prevalence.
+  - [x] Source fixed/source-val/target-oracle thresholds and boundary drift.
+  - [x] Density figures using the unchanged Stage 5B cohort.
   - [ ] Patient-level direction bootstrap (non-blocking supplement).
   - [ ] Label-permutation null (non-blocking supplement).
-- [ ] Stage 6 Decision Gate.
-- [ ] Stage 6A — Representation Learning, only if Stage 5D justifies it.
+- [x] Stage 6 Decision Gate — qualified Case B; Stage 6B is the main priority.
+- [ ] Stage 6A — Auxiliary representation enhancement after the Stage 6B main
+  path; retained because some transfers remain ranking-limited.
 - [ ] Stage 6B — Target Boundary Reconstruction v2.
   - [ ] Subject-balanced target fitting.
   - [ ] Source-anchored GMM.
