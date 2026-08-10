@@ -278,10 +278,12 @@ qualified Case B: prioritize label-free Stage 6B boundary reconstruction, with
 Stage 6A retained later as an auxiliary representation ablation because
 `M_CPSC -> LTAFDB/AFDB` still shows material ranking/separation limitations.
 
-## Post-Stage-5B execution order
+## Historical post-Stage-5B execution order (superseded for new experiments)
 
 The task priority below supersedes the earlier post-Stage-5 supplement order
-and follows `EXPERIMENT_PLAN_UPDATE_AFTER_STAGE5B.md`.
+and follows `EXPERIMENT_PLAN_UPDATE_AFTER_STAGE5B.md`. It records the frozen
+Stage 5D decision but no longer controls new experiment execution after the
+AFDB-source revision.
 
 - [x] Stage 5A — Direction vs Linear Head.
 - [x] Stage 5B — Four-Dataset Direction Geometry.
@@ -303,3 +305,42 @@ and follows `EXPERIMENT_PLAN_UPDATE_AFTER_STAGE5B.md`.
   - [ ] Reliability fallback to H1/P1.
 - [ ] Frozen full cross-domain benchmark.
 - [ ] Patient-level bootstrap and final tables/mechanism figures.
+
+## AFDB-source revision execution order (current priority)
+
+This section follows `EXPERIMENT_PLAN_REVISION_AFDB_SOURCE.md` and supersedes
+conflicting LTAFDB, source-domain, and post-Stage-5D ordering above. Frozen
+Stage 1–5D artifacts remain unchanged.
+
+- [x] Freeze the latest AFDB-source revision document before implementation.
+- [x] Revision R1 — `LTAFDB-clean1h-v1`.
+  - [x] Preserve `LTAFDB-original / pre-revision` and its index hash.
+  - [x] Add the independent `ltaf_skip_first_hour_v1` dataset configuration.
+  - [x] Exclude every grid window with `window_start_seconds < 3600` without
+    labels, partial cropping, shifting, or padding.
+  - [x] Build and hash the independent clean index and version manifest.
+  - [x] Compare old and clean counts by class, record, and subject.
+  - [x] Verify row identity, cutoff, split consistency, and zero leakage.
+  - [x] Run the label-free 0–1 h versus `>=1 h` quality audit and preserve its
+    mixed/null findings without overclaiming.
+  - [x] Verify hidden-label target loading and finite `float32 [2, 2000]`
+    preprocessing output.
+  - [x] Run 78 unit/regression tests and formal real-data audits at clean commit
+    `f274b31`.
+  - [x] Document results in `REVISION_R1_REPORT.md`.
+- [ ] Revision R2 — AFDB Source Protocol.
+  - [ ] Audit current AFDB source split/trainer assumptions before coding.
+  - [ ] Freeze deterministic subject-level five-fold assignments (seed 42).
+  - [ ] Implement five-fold OOF development without target-label access.
+  - [ ] Freeze OOF head/prototype thresholds and final-epoch aggregation.
+  - [ ] Train full-source `M_AFDB` and run seed 42/2024/3407 stability.
+- [ ] Revision R3 — `M_AFDB` mechanism revalidation.
+  - [ ] AFDB prototype versus linear head.
+  - [ ] Four-dataset geometry using `LTAFDB-clean1h-v1`.
+  - [ ] AFDB head versus shared disease axis.
+  - [ ] Three-target disease-axis distribution shift.
+- [ ] Run the new Decision Gate; do not inherit the historical Stage 6B-first
+  decision automatically.
+- [ ] Execute Stage 6A/6B in the order selected by the new Decision Gate.
+- [ ] Run the frozen AFDB-to-three-target final benchmark.
+- [ ] Run patient-level statistics and assemble final tables/figures.
