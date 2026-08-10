@@ -211,14 +211,49 @@ Subject-equal results preserved the high direction alignment. This supports the
 post-hoc mechanism hypothesis that absolute domain location shifts while the
 relative AF-minus-non-AF direction remains substantially more stable.
 
-## Supplement execution order
+## Stage 5C status
+
+- [x] Preserve H0 as the binary-head logit-difference threshold 0, exactly
+  equivalent to AF probability 0.5.
+- [x] Select H1 on source validation by maximum Balanced Accuracy and freeze it
+  before development-target evaluation.
+- [x] Preserve P0 as the Stage 4 source prototype-midpoint threshold.
+- [x] Select P1 on source validation using the same frozen rule.
+- [x] Prove that threshold selection does not open the target index or access
+  target labels; read development-target evaluation labels only after freeze.
+- [x] Verify exact H0/H1 and P0/P1 AUROC/AUPRC invariance.
+- [x] Save complete curves, thresholds, source-test/target metrics, hashes, and
+  selection/evaluation manifests at clean commit `08748a0`.
+- [x] Run 63 unit/regression tests and real frozen-score select/evaluate smoke.
+
+See `STAGE5C_REPORT.md`. Source-optimized thresholds improved all reported
+source-test operating-point metrics. On CPSC2021 -> SHDB-AF, H1 improved BACC
+by 0.0062 and MCC by 0.0026 over H0. On LTAFDB -> AFDB, H1 changed BACC by only
++0.0002 and MCC by -0.0006; P1 lowered BACC and MCC versus P0 despite small
+Macro-F1/accuracy gains. H1 is now the main fair source baseline, but source
+threshold tuning alone does not consistently solve target boundary shift.
+
+## Post-Stage-5B execution order
+
+The task priority below supersedes the earlier post-Stage-5 supplement order
+and follows `EXPERIMENT_PLAN_UPDATE_AFTER_STAGE5B.md`.
 
 - [x] Stage 5A — Direction vs Linear Head.
 - [x] Stage 5B — Four-Dataset Direction Geometry.
-- [ ] Stage 5C — Strong Source Baseline.
-- [ ] Stage 6A — CE + SupCon.
-- [ ] Stage 6B — CE + Prototype/Center.
-- [ ] Stage 6C — Combined loss only if 6A or 6B is effective.
-- [ ] Stage 7 — Target Boundary Reconstruction v2.
-- [ ] Stage 8 — Frozen four-dataset benchmark.
-- [ ] Stage 9 — Patient-level statistics and final tables.
+- [x] Stage 5C — Strong Source Baseline (H0/H1/P0/P1).
+- [ ] Stage 5B+ — Source Head vs Shared Cross-Dataset Disease Axis.
+- [ ] Stage 5D — Disease-Axis Distribution & Boundary Shift.
+  - [ ] Class-conditional means, variances, gap, separation, and prevalence.
+  - [ ] Source fixed/source-val/target-oracle thresholds and boundary drift.
+  - [ ] Density figures using the unchanged Stage 5B cohort.
+  - [ ] Patient-level direction bootstrap (non-blocking supplement).
+  - [ ] Label-permutation null (non-blocking supplement).
+- [ ] Stage 6 Decision Gate.
+- [ ] Stage 6A — Representation Learning, only if Stage 5D justifies it.
+- [ ] Stage 6B — Target Boundary Reconstruction v2.
+  - [ ] Subject-balanced target fitting.
+  - [ ] Source-anchored GMM.
+  - [ ] Constrained positive shift/scale model.
+  - [ ] Reliability fallback to H1/P1.
+- [ ] Frozen full cross-domain benchmark.
+- [ ] Patient-level bootstrap and final tables/mechanism figures.
