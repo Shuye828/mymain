@@ -6,6 +6,7 @@ import pytest
 from src.training.afdb_source_protocol import (
     build_fold_assignments,
     centered_prototype_margin,
+    fold_subject_partitions,
     median_best_epoch,
     validate_fold_assignments,
 )
@@ -30,6 +31,15 @@ def test_fold_validation_rejects_duplicate_subject() -> None:
         validate_fold_assignments(
             rows + [rows[0]], expected_subjects={r.subject_id for r in rows}
         )
+
+
+def test_fold_subject_partitions_are_disjoint_and_complete() -> None:
+    rows = build_fold_assignments([f"s{index:02d}" for index in range(23)])
+    training, validation = fold_subject_partitions(rows, 0)
+    assert not training & validation
+    assert training | validation == {row.subject_id for row in rows}
+    assert len(training) == 18
+    assert len(validation) == 5
 
 
 def test_median_best_epoch_requires_exactly_five_positive_epochs() -> None:

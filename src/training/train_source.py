@@ -112,23 +112,44 @@ def _build_loaders(
     data_root = Path(config["data_root"])
     training = config["training"]
     seed = int(training["seed"])
-    train_rows = load_window_rows(
-        [index_path],
-        source_split="train",
-        max_windows_per_subject_per_class=int(
-            training["max_windows_per_subject_per_class"]
-        ),
-        seed=seed,
-    )
+    subject_partitions = config.get("subject_partitions")
+    if subject_partitions is not None:
+        train_subjects = set(subject_partitions["train"])
+        validation_subjects = set(subject_partitions["validation"])
+        if not train_subjects or not validation_subjects:
+            raise ValueError("explicit subject partitions must be non-empty")
+        if train_subjects & validation_subjects:
+            raise ValueError("explicit train/validation subjects overlap")
+        train_rows = load_window_rows(
+            [index_path],
+            include_subjects=train_subjects,
+            max_windows_per_subject_per_class=int(
+                training["max_windows_per_subject_per_class"]
+            ),
+            seed=seed,
+        )
+    else:
+        train_rows = load_window_rows(
+            [index_path],
+            source_split="train",
+            max_windows_per_subject_per_class=int(
+                training["max_windows_per_subject_per_class"]
+            ),
+            seed=seed,
+        )
     if tiny_overfit:
         train_rows = _tiny_rows(train_rows, int(training["tiny_per_class"]))
         validation_rows = train_rows
         test_rows: list[WindowRow] = []
     else:
-        validation_rows = load_window_rows(
-            [index_path], source_split="validation"
-        )
-        test_rows = load_window_rows([index_path], source_split="test")
+        if subject_partitions is not None:
+            validation_rows = load_window_rows(
+                [index_path], include_subjects=validation_subjects
+            )
+            test_rows = []
+        else:
+            validation_rows = load_window_rows([index_path], source_split="validation")
+            test_rows = load_window_rows([index_path], source_split="test")
         if evaluation_windows_per_class is not None:
             validation_rows = _balanced_diagnostic_rows(
                 validation_rows,

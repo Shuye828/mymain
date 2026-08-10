@@ -149,6 +149,20 @@ def audit_fold_classes(index_path: Path, rows: list[FoldAssignment]) -> dict:
     return {"valid": True, "folds": details}
 
 
+def fold_subject_partitions(
+    rows: list[FoldAssignment], fold_id: int
+) -> tuple[set[str], set[str]]:
+    if fold_id not in range(5):
+        raise ValueError("fold_id must be in [0,4]")
+    validation = {row.subject_id for row in rows if row.fold_id == fold_id}
+    training = {row.subject_id for row in rows if row.fold_id != fold_id}
+    if not training or not validation or training & validation:
+        raise ValueError("invalid AFDB fold subject partition")
+    if training | validation != {row.subject_id for row in rows}:
+        raise ValueError("AFDB fold partition does not cover the manifest")
+    return training, validation
+
+
 def median_best_epoch(best_epochs: list[int]) -> int:
     if len(best_epochs) != 5 or any(epoch <= 0 for epoch in best_epochs):
         raise ValueError("final epoch requires five positive best epochs")
