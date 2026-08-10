@@ -64,6 +64,7 @@ def load_window_rows(
     *,
     source_split: str | None = None,
     target_split: str | None = None,
+    include_subjects: set[str] | None = None,
     max_windows_per_subject_per_class: int | None = None,
     seed: int = 42,
 ) -> list[WindowRow]:
@@ -74,10 +75,7 @@ def load_window_rows(
         and max_windows_per_subject_per_class <= 0
     ):
         raise ValueError("window cap must be positive")
-    if (
-        target_split is not None
-        and max_windows_per_subject_per_class is not None
-    ):
+    if target_split is not None and max_windows_per_subject_per_class is not None:
         raise ValueError(
             "target selection cannot use max_windows_per_subject_per_class "
             "because it would inspect target labels"
@@ -88,6 +86,11 @@ def load_window_rows(
         with Path(path).open(encoding="utf-8", newline="") as handle:
             for item in csv.DictReader(handle):
                 row = _parse_row(item)
+                if (
+                    include_subjects is not None
+                    and row.subject_id not in include_subjects
+                ):
+                    continue
                 if source_split is not None and row.source_split != source_split:
                     continue
                 if target_split is not None and row.target_split != target_split:
@@ -175,9 +178,7 @@ class ECGWindowDataset(Dataset):
 
     def _adapter(self, dataset: str):
         if dataset not in self._adapters:
-            self._adapters[dataset] = create_adapter(
-                dataset, data_root=self.data_root
-            )
+            self._adapters[dataset] = create_adapter(dataset, data_root=self.data_root)
         return self._adapters[dataset]
 
     def __getitem__(self, index: int) -> dict:
@@ -218,12 +219,9 @@ def build_subject_class_balanced_sampler(
 
     if not rows:
         raise ValueError("cannot sample an empty window collection")
-    counts = Counter(
-        (row.dataset, row.subject_id, row.binary_label) for row in rows
-    )
+    counts = Counter((row.dataset, row.subject_id, row.binary_label) for row in rows)
     weights = [
-        1.0 / counts[(row.dataset, row.subject_id, row.binary_label)]
-        for row in rows
+        1.0 / counts[(row.dataset, row.subject_id, row.binary_label)] for row in rows
     ]
     generator = torch.Generator()
     generator.manual_seed(seed)

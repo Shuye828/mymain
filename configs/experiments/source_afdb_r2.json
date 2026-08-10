@@ -1,0 +1,40 @@
+{
+  "experiment": "revision_r2_afdb_source",
+  "role": "afdb_source_oof",
+  "dataset": "afdb",
+  "protocol": "REVISION_R2_PROTOCOL.md",
+  "protocol_sha256": "3e3c663176912d3284a2e390476da47dc2d758a60d744324486232d4d9c3c3af",
+  "data_root": "data/raw",
+  "index_path": "data/index/afdb_windows.csv",
+  "fold_manifest": "configs/experiments/afdb_source_oof_folds_v1.csv",
+  "output_dir": "outputs/revision_r2_afdb_source",
+  "folds": 5,
+  "fold_assignment_seed": 42,
+  "fold_version": "afdb_source_oof_5fold_v1",
+  "model": {
+    "dim": 128,
+    "max_channel": 2,
+    "num_heads": 8,
+    "num_layers": 6,
+    "patch_size": 8,
+    "num_classes": 2
+  },
+  "training": {
+    "seed": 42,
+    "batch_size": 8,
+    "eval_batch_size": 16,
+    "num_workers": 0,
+    "progress_every_batches": 250,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "epochs": 100,
+    "patience": 10,
+    "max_windows_per_subject_per_class": 500,
+    "tiny_per_class": 8,
+    "tiny_success_accuracy": 0.95
+  },
+  "full_source": {
+    "seeds": [42, 2024, 3407],
+    "epoch_rule": "integer_median_of_five_oof_best_epochs"
+  }
+}
