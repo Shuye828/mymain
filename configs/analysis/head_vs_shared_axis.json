@@ -1,0 +1,20 @@
+{
+  "experiment": "stage5b_plus_head_vs_shared_axis",
+  "role": "post_hoc_analysis",
+  "protocol": "EXPERIMENT_PLAN_UPDATE_AFTER_STAGE5B.md",
+  "protocol_sha256": "5ba2c6798e5b2e2c906ede61ed0428e212c389d14f21af2c751349657af8c36f",
+  "target_label_usage": "inherited frozen post-hoc artifacts only",
+  "selected_window_manifest_sha256": "bfe2b8da0c5d7a2d26ca90e7b408a44a7d722af4c06ccd7b885b69eaf3557bd6",
+  "dataset_order": ["cpsc2021", "ltafdb", "afdb", "shdb-af"],
+  "references": {
+    "cpsc2021": {
+      "stage5a_dir": "outputs/stage5a_head_vs_direction/cpsc2021",
+      "stage5b_reference_dir": "outputs/stage5b_direction_geometry/cpsc2021_reference"
+    },
+    "ltafdb": {
+      "stage5a_dir": "outputs/stage5a_head_vs_direction/ltafdb",
+      "stage5b_reference_dir": "outputs/stage5b_direction_geometry/ltafdb_reference"
+    }
+  },
+  "output_dir": "outputs/stage5b_direction_geometry"
+}
