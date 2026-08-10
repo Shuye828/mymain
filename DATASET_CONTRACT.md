@@ -89,6 +89,30 @@ Windows are aligned to a record-wide grid beginning at sample zero. Only full
 containment within one allowed half-open rhythm interval is accepted. Exact
 endpoint equality is allowed; crossing a boundary is not.
 
+### LTAFDB version contract after Revision R1
+
+The historical `data/index/ltafdb_windows.csv` remains immutable and is named
+`LTAFDB-original / pre-revision` in later reports. Revision R1 adds the logical
+dataset version `ltaf_skip_first_hour_v1`, displayed as
+`LTAFDB-clean1h-v1`, with its independent index at
+`data/index/ltaf_skip_first_hour_v1/ltafdb_windows.csv`.
+
+The clean version preserves the original WFDB files and their absolute
+source-sample coordinates. It applies one label-independent rule to every
+record before accepting windows: `window_start_seconds >= 3600`. A grid window
+whose start precedes 3600 seconds is excluded in full; no partial window is
+cropped, shifted, or padded. All other duration, stride, interval-containment,
+label-mapping, subject-split, filtering, resampling, and tensor-shape contracts
+remain unchanged. The clean index must therefore equal the historical index
+filtered at the cutoff, except for its new `window_version` value.
+
+The frozen version manifest, index comparison, and label-free 0–1 h versus
+`>=1 h` raw-signal quality audit live under
+`outputs/revision_r1_ltaf_clean1h/`. Quality metrics provide dataset-level
+evidence only and must never cause patient-specific filtering or access rhythm
+labels. No R1 operation may modify raw LTAFDB files, the historical index, or
+pre-revision model artifacts.
+
 ## Strict label policy
 
 - Positive: the entire window lies within reliable AFIB rhythm.

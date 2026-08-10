@@ -1,0 +1,23 @@
+{
+  "dataset": "ltafdb",
+  "display_name": "LTAFDB-clean1h-v1",
+  "dataset_version": "ltaf_skip_first_hour_v1",
+  "base_dataset_version": "LTAFDB-original",
+  "raw_data_root": "data/raw",
+  "base_window_config": "configs/experiments/windowing.json",
+  "base_index": "data/index/ltafdb_windows.csv",
+  "subject_split_manifest": "data/index/ltafdb_subject_splits.csv",
+  "output_index": "data/index/ltaf_skip_first_hour_v1/ltafdb_windows.csv",
+  "output_dir": "outputs/revision_r1_ltaf_clean1h",
+  "skip_first_seconds": 3600,
+  "window_version": "strict_10s_nonoverlap_ltaf_skip3600s_v1",
+  "quality_audit": {
+    "window_seconds": 10,
+    "windows_per_period_per_record": 360,
+    "seed": 42,
+    "extreme_amplitude_mv": 5.0,
+    "extreme_first_difference_mv": 1.0,
+    "high_frequency_band_hz": [20.0, 40.0],
+    "reference_power_band_hz": [0.5, 40.0]
+  }
+}

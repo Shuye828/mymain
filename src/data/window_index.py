@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 import json
+import math
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
@@ -57,14 +58,20 @@ def classify_grid_windows(
     intervals: Sequence[RhythmInterval],
     window_samples: int,
     stride_samples: int,
+    minimum_start_sample: int = 0,
 ) -> Iterator[WindowDecision]:
     """Classify non-overlapping/global-grid windows by full containment."""
 
     if window_samples <= 0 or stride_samples <= 0:
         raise ValueError("window and stride samples must be positive")
+    if minimum_start_sample < 0:
+        raise ValueError("minimum start sample must be non-negative")
     interval_index = 0
     for start in range(0, max(0, signal_length - window_samples + 1), stride_samples):
         end = start + window_samples
+        if start < minimum_start_sample:
+            yield WindowDecision(start, end, None, "before_minimum_start")
+            continue
         while (
             interval_index < len(intervals)
             and intervals[interval_index].end_sample <= start
@@ -93,11 +100,15 @@ def index_dataset(
     output_path: Path,
     mapping: RhythmMapping,
     window_config: dict,
+    minimum_start_seconds: float = 0.0,
 ) -> dict:
     """Stream one dataset's accepted windows to CSV with exclusion statistics."""
 
     duration_seconds = float(window_config["duration_seconds"])
     stride_seconds = float(window_config["stride_seconds"])
+    minimum_start_seconds = float(minimum_start_seconds)
+    if not math.isfinite(minimum_start_seconds) or minimum_start_seconds < 0:
+        raise ValueError("minimum start seconds must be finite and non-negative")
     stats: Counter[str] = Counter()
     class_counts: Counter[str] = Counter()
     source_split_counts: Counter[str] = Counter()
@@ -126,6 +137,7 @@ def index_dataset(
 
             window_samples = int(round(metadata.fs * duration_seconds))
             stride_samples = int(round(metadata.fs * stride_seconds))
+            minimum_start_sample = int(math.ceil(minimum_start_seconds * metadata.fs))
             if metadata.signal_length < window_samples:
                 stats["record_shorter_than_window"] += 1
                 continue
@@ -137,6 +149,7 @@ def index_dataset(
                 intervals=intervals,
                 window_samples=window_samples,
                 stride_samples=stride_samples,
+                minimum_start_sample=minimum_start_sample,
             ):
                 stats[f"window_{decision.reason}"] += 1
                 if not decision.accepted or decision.interval is None:
@@ -167,9 +180,7 @@ def index_dataset(
                         "mapping_version": mapping.version,
                         "split_version": split.split_version,
                         "window_version": window_config["version"],
-                        "cpsc_boundary_version": window_config[
-                            "cpsc_boundary_version"
-                        ],
+                        "cpsc_boundary_version": window_config["cpsc_boundary_version"],
                     }
                 )
                 class_counts[str(binary_label)] += 1
@@ -180,6 +191,7 @@ def index_dataset(
     temporary_path.replace(output_path)
     return {
         "dataset": adapter.dataset,
+        "minimum_start_seconds": minimum_start_seconds,
         "output_path": str(output_path),
         "accepted_windows": stats["window_accepted"],
         "accepted_records": len(accepted_records),
