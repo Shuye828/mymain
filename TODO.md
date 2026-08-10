@@ -233,6 +233,27 @@ by 0.0062 and MCC by 0.0026 over H0. On LTAFDB -> AFDB, H1 changed BACC by only
 Macro-F1/accuracy gains. H1 is now the main fair source baseline, but source
 threshold tuning alone does not consistently solve target boundary shift.
 
+## Stage 5B+ status
+
+- [x] Reuse the frozen Stage 5A head directions and Stage 5B four-dataset
+  direction summaries without rereading ECG or accessing new target labels.
+- [x] Compare each source head with all four same-space disease directions.
+- [x] Compare mean prototype-prototype cosine with mean head-to-prototype cosine,
+  both including and excluding the source dataset direction.
+- [x] Construct the normalized four-direction shared axis and measure each
+  source head's cosine and angle to it.
+- [x] Repeat the analysis with subject-equal directions.
+- [x] Save CSV, JSON, visually inspected figure, input hashes, and a clean-run
+  manifest at commit `42efab1`.
+- [x] Run 67 unit/regression tests.
+
+See `STAGE5B_PLUS_REPORT.md`. In `M_CPSC`, mean prototype-prototype cosine was
+0.9747 versus mean head-to-prototype cosine 0.8504; in `M_LTAF`, the values were
+0.9892 versus 0.8839. The heads remain 30.85 and 27.44 degrees from their
+four-dataset shared axes. Subject-equal results are nearly identical. This
+supports source-specific linear-head rotation relative to the compact shared
+disease geometry, without claiming universal prototype-score superiority.
+
 ## Post-Stage-5B execution order
 
 The task priority below supersedes the earlier post-Stage-5 supplement order
@@ -241,7 +262,7 @@ and follows `EXPERIMENT_PLAN_UPDATE_AFTER_STAGE5B.md`.
 - [x] Stage 5A — Direction vs Linear Head.
 - [x] Stage 5B — Four-Dataset Direction Geometry.
 - [x] Stage 5C — Strong Source Baseline (H0/H1/P0/P1).
-- [ ] Stage 5B+ — Source Head vs Shared Cross-Dataset Disease Axis.
+- [x] Stage 5B+ — Source Head vs Shared Cross-Dataset Disease Axis.
 - [ ] Stage 5D — Disease-Axis Distribution & Boundary Shift.
   - [ ] Class-conditional means, variances, gap, separation, and prevalence.
   - [ ] Source fixed/source-val/target-oracle thresholds and boundary drift.
