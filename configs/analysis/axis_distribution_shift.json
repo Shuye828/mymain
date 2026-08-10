@@ -1,0 +1,38 @@
+{
+  "experiment": "stage5d_axis_distribution_shift",
+  "role": "post_hoc_analysis",
+  "protocol": "EXPERIMENT_PLAN_UPDATE_AFTER_STAGE5B.md",
+  "protocol_sha256": "5ba2c6798e5b2e2c906ede61ed0428e212c389d14f21af2c751349657af8c36f",
+  "target_label_usage": "post-hoc mechanism analysis only",
+  "seed": 42,
+  "selected_window_manifest": "outputs/stage5b_direction_geometry/selected_window_manifest.csv",
+  "selected_window_manifest_sha256": "bfe2b8da0c5d7a2d26ca90e7b408a44a7d722af4c06ccd7b885b69eaf3557bd6",
+  "data_root": "data/raw",
+  "dataset_order": ["cpsc2021", "ltafdb", "afdb", "shdb-af"],
+  "extraction": {
+    "batch_size": 16,
+    "num_workers": 0,
+    "progress_every_batches": 250
+  },
+  "statistics": {
+    "histogram_bins": 200,
+    "score_range": [-1.0, 1.0],
+    "oracle_rule": "argmax_balanced_accuracy",
+    "oracle_usage": "post-hoc mechanism analysis only"
+  },
+  "references": {
+    "cpsc2021": {
+      "source_config": "configs/experiments/source_cpsc2021_ce.json",
+      "checkpoint": "outputs/stage3/source_cpsc2021_ce/best.pt",
+      "direction": "outputs/stage4/source_cpsc2021_direction/disease_direction.json",
+      "stage5c_threshold_artifact": "outputs/stage5c_strong_source_baseline/cpsc2021/threshold_artifact.json"
+    },
+    "ltafdb": {
+      "source_config": "configs/experiments/source_ltafdb_ce.json",
+      "checkpoint": "outputs/stage3/source_ltafdb_ce/best.pt",
+      "direction": "outputs/stage4/source_ltafdb_direction/disease_direction.json",
+      "stage5c_threshold_artifact": "outputs/stage5c_strong_source_baseline/ltafdb/threshold_artifact.json"
+    }
+  },
+  "output_dir": "outputs/stage5d_axis_distribution_shift"
+}
