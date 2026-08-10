@@ -3,6 +3,9 @@ import csv
 import numpy as np
 import pytest
 
+from src.data.ecg_dataset import WindowRow
+from src.training.afdb_oof_finalize import row_identity, validate_oof_coverage
+from src.training.afdb_full_source import resolve_final_epoch
 from src.training.afdb_source_protocol import (
     build_fold_assignments,
     centered_prototype_margin,
@@ -97,3 +100,30 @@ def test_explicit_subject_loader_filter(tmp_path) -> None:
     rows = load_window_rows([path], include_subjects={"a"})
     assert len(rows) == 2
     assert {row.subject_id for row in rows} == {"a"}
+
+
+def test_oof_coverage_requires_unique_exact_window_identity() -> None:
+    rows = [
+        WindowRow("afdb", "r1", "s1", 0, 2500, 250, 0, "N", "x", "x"),
+        WindowRow("afdb", "r2", "s2", 0, 2500, 250, 1, "AF", "x", "x"),
+    ]
+    identities = [row_identity(row) for row in rows]
+    validate_oof_coverage(rows, identities)
+    with pytest.raises(ValueError, match="duplicate"):
+        validate_oof_coverage(rows, [identities[0], identities[0]])
+    with pytest.raises(ValueError, match="coverage mismatch"):
+        validate_oof_coverage(rows, identities[:1])
+
+
+def test_final_epoch_rule_must_be_frozen_and_source_only() -> None:
+    config = {"full_source": {"epoch_rule": "median"}}
+    rule = {
+        "frozen": True,
+        "target_data_accessed": False,
+        "rule": "median",
+        "final_epoch": 7,
+        "best_epochs": [3, 5, 7, 9, 11],
+    }
+    assert resolve_final_epoch(config, rule) == 7
+    with pytest.raises(ValueError, match="source-only"):
+        resolve_final_epoch(config, {**rule, "target_data_accessed": True})
