@@ -328,12 +328,14 @@ Stage 1–5D artifacts remain unchanged.
   - [x] Run 78 unit/regression tests and formal real-data audits at clean commit
     `f274b31`.
   - [x] Document results in `REVISION_R1_REPORT.md`.
-- [ ] Revision R2 — AFDB Source Protocol.
-  - [ ] Audit current AFDB source split/trainer assumptions before coding.
-  - [ ] Freeze deterministic subject-level five-fold assignments (seed 42).
-  - [ ] Implement five-fold OOF development without target-label access.
-  - [ ] Freeze OOF head/prototype thresholds and final-epoch aggregation.
-  - [ ] Train full-source `M_AFDB` and run seed 42/2024/3407 stability.
+- [x] Revision R2 — AFDB Source Protocol.
+  - [x] Audit current AFDB source split/trainer assumptions before coding.
+  - [x] Freeze deterministic subject-level five-fold assignments (seed 42).
+  - [x] Implement five-fold OOF development without target-label access.
+  - [x] Freeze OOF head/prototype thresholds and final-epoch aggregation.
+  - [x] Train full-source `M_AFDB` and run seed 42/2024/3407 stability.
+  - [x] Verify exact OOF coverage, thresholds, checkpoint hashes, provenance,
+    and 86 unit/regression tests; see `REVISION_R2_REPORT.md`.
 - [ ] Revision R3 — `M_AFDB` mechanism revalidation.
   - [ ] AFDB prototype versus linear head.
   - [ ] Four-dataset geometry using `LTAFDB-clean1h-v1`.
