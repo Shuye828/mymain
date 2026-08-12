@@ -105,8 +105,9 @@ def decision_gate(rows:list[dict],c:dict)->dict:
         if representation: rep.append(r["dataset"])
         if boundary_signal: boundary.append(r["dataset"])
         evidence[r["dataset"]]=signals
-    case="C_mixed" if rep and boundary else ("A_representation_first" if rep else ("B_boundary_first" if boundary else "D_no_major_bottleneck_benchmark_first"))
-    return {"case":case,"representation_limited_targets":rep,"boundary_limited_targets":boundary,"per_target_evidence":evidence,"rule":rule,"historical_stage6_order_inherited":False}
+    case="C_mixed" if rep and boundary else ("A_representation_first" if rep else ("B_boundary_first" if boundary else "NO_PREDEFINED_CASE_TRIGGERED"))
+    recommendation=("run_frozen_afdb_to_three_target_benchmark_before_optional_stage6" if case=="NO_PREDEFINED_CASE_TRIGGERED" else ("stage6a_first" if case=="A_representation_first" else ("stage6b_first" if case=="B_boundary_first" else "combined_stage6a_stage6b_prioritize_largest_bottleneck")))
+    return {"case":case,"predefined_gate_conclusive":case!="NO_PREDEFINED_CASE_TRIGGERED","representation_limited_targets":rep,"boundary_limited_targets":boundary,"per_target_evidence":evidence,"rule":rule,"historical_stage6_order_inherited":False,"execution_recommendation":recommendation,"recommendation_is_post_result_protocol_clarification":case=="NO_PREDEFINED_CASE_TRIGGERED"}
 def _plot_heat(root:Path,names:list[str],mats:dict):
     os.environ.setdefault("MPLCONFIGDIR",str(Path(tempfile.gettempdir())/"r3-mpl")); import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
     fig,axs=plt.subplots(2,2,figsize=(13,11),constrained_layout=True)
