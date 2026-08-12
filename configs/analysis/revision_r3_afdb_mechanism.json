@@ -1,0 +1,46 @@
+{
+  "experiment": "revision_r3_afdb_mechanism",
+  "role": "post_hoc_analysis",
+  "target_label_usage": "post-hoc mechanism analysis only",
+  "protocol": "EXPERIMENT_PLAN_REVISION_AFDB_SOURCE.md",
+  "protocol_sha256": "6747ca843386eeb3ef9351af409337ea897c046e019490aa9584d2ce9eaaafb6",
+  "implementation_plan": "REVISION_R3_IMPLEMENTATION_PLAN.md",
+  "seed": 42,
+  "dataset_order": ["afdb", "cpsc2021", "ltafdb", "shdb-af"],
+  "selection": {
+    "method": "deterministic_hash_cap_per_subject_per_class",
+    "max_windows_per_subject_per_class": 500,
+    "primary_estimand": "window_weighted_over_selected_cohort",
+    "sensitivity_estimand": "subject_equal_over_selected_cohort"
+  },
+  "extraction": {"batch_size": 16, "num_workers": 0, "progress_every_batches": 250},
+  "datasets": {
+    "afdb": {"index_path": "data/index/afdb_windows.csv", "index_sha256": "f6528265320183418b001e14e9ece11e6128263d8b55114e1e37412f984a5d35", "data_root": "data/raw"},
+    "cpsc2021": {"index_path": "data/index/cpsc2021_windows.csv", "index_sha256": "1e005a25dd87f405c634337e73775df384460bbbadfbc41b1c27ce88be2f0834", "data_root": "data/raw"},
+    "ltafdb": {"index_path": "data/index/ltaf_skip_first_hour_v1/ltafdb_windows.csv", "index_sha256": "f5aa7ad7c29fa138445e73a40b76a7140e85c365f0717db2fe1f536ebc98befe", "dataset_version": "ltaf_skip_first_hour_v1", "data_root": "data/raw"},
+    "shdb-af": {"index_path": "data/index/shdb-af_windows.csv", "index_sha256": "b6d018738681e9dcd80582d20a276a3b31dda8c8b8d1e2db228dc9bcbd311231", "data_root": "data/raw"}
+  },
+  "model": {
+    "checkpoint": "outputs/revision_r2_afdb_source/full_source/seed_42/final.pt",
+    "checkpoint_sha256": "0bd3bae8240ddf07fb6d0b3c194e1ca782d37c9cb92a698b13abff570409916d",
+    "source_config": "configs/experiments/source_afdb_r2.json",
+    "required_seed": 42,
+    "required_main_seed": true
+  },
+  "r2_oof": {
+    "scores": "outputs/revision_r2_afdb_source/oof/afdb_oof_scores.npz",
+    "scores_sha256": "1b3b68543417ae255fddbbb4419c6872c615d0edba25e903073a728924334c2a",
+    "thresholds": "outputs/revision_r2_afdb_source/oof/thresholds.json",
+    "thresholds_sha256": "638d75082e0cccc267aa0980ab65920c25c449fbd239e25ad5851c5ee30fb482"
+  },
+  "equivalence_rule": {"min_direction_cosine": 0.95, "min_dataset_spearman": 0.98},
+  "statistics": {"histogram_bins": 200, "score_range": [-1.0, 1.0]},
+  "decision_gate": {
+    "representation_auroc_below": 0.90,
+    "relative_auprc_drop_at_least": 0.10,
+    "class_gap_ratio_below": 0.50,
+    "overlap_increase_at_least": 0.15,
+    "boundary_headroom_at_least": 0.03
+  },
+  "output_dir": "outputs/revision_r3_afdb_mechanism"
+}
