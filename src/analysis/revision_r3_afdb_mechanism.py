@@ -105,7 +105,7 @@ def decision_gate(rows:list[dict],c:dict)->dict:
         if representation: rep.append(r["dataset"])
         if boundary_signal: boundary.append(r["dataset"])
         evidence[r["dataset"]]=signals
-    case="C_mixed" if rep and boundary else ("A_representation_first" if rep else ("B_boundary_first" if boundary else "B_boundary_first_weak_headroom"))
+    case="C_mixed" if rep and boundary else ("A_representation_first" if rep else ("B_boundary_first" if boundary else "D_no_major_bottleneck_benchmark_first"))
     return {"case":case,"representation_limited_targets":rep,"boundary_limited_targets":boundary,"per_target_evidence":evidence,"rule":rule,"historical_stage6_order_inherited":False}
 def _plot_heat(root:Path,names:list[str],mats:dict):
     os.environ.setdefault("MPLCONFIGDIR",str(Path(tempfile.gettempdir())/"r3-mpl")); import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
@@ -116,6 +116,15 @@ def _plot_heat(root:Path,names:list[str],mats:dict):
           for j in range(4): ax.text(j,i,f"{m[i,j]:.3f}",ha="center",va="center",fontsize=8)
         fig.colorbar(im,ax=ax)
     fig.savefig(root/"r3b_geometry.png",dpi=180); plt.close(fig)
+def _plot_distributions(root:Path,names:list[str],datasets:np.ndarray,labels:np.ndarray,scores:np.ndarray,p1:float,oracle:dict):
+    os.environ.setdefault("MPLCONFIGDIR",str(Path(tempfile.gettempdir())/"r3-mpl")); import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
+    targets=[n for n in names if n!="afdb"]; fig,axs=plt.subplots(3,1,figsize=(12,12),constrained_layout=True)
+    for ax,target in zip(axs,targets):
+        for domain,name in (("source","afdb"),("target",target)):
+            for y,label_name,color in ((0,"non-AF","#4c78a8"),(1,"AF","#e45756")):
+                values=scores[(datasets==name)&(labels==y)]; ax.hist(values,bins=200,range=(-1,1),density=True,histtype="step",linewidth=1.4,color=color,linestyle="-" if domain=="source" else "--",label=f"{name} {label_name}")
+        ax.axvline(p1,color="black",linestyle="--",label="AFDB OOF P1"); ax.axvline(float(oracle[target]["threshold"]),color="#b279a2",linestyle=":",linewidth=2,label="target oracle (post-hoc)"); ax.set_title(f"AFDB source vs {target}"); ax.set_xlabel("AFDB prototype-axis score"); ax.set_ylabel("density"); ax.grid(alpha=.2); ax.legend(ncol=3,fontsize=8)
+    fig.savefig(root/"r3d_axis_distribution_shift.png",dpi=180); plt.close(fig)
 def analyze(c:dict,*,output_override:Path|None=None)->dict:
     c=deepcopy(c); validate_config(c); root=_root(c,output_override); out=root/"extraction"; artifact=_load(out/"score_artifact.json"); manifest=_load(out/"run_manifest.json"); archive_path=out/"features_and_scores.npz"
     if artifact.get("frozen") is not True or artifact.get("labels_accessed") is not False or artifact.get("diagnostic_max_batches_per_dataset") is not None: raise ValueError("R3 formal analysis rejects extraction")
@@ -151,6 +160,6 @@ def analyze(c:dict,*,output_override:Path|None=None)->dict:
     rows=[]; operating={}
     for name in names:
         mask=datasets==name; p1m=compute_binary_metrics(labels[mask],proto[mask],threshold=p1); om=compute_binary_metrics(labels[mask],proto[mask],threshold=float(oracle[name]["threshold"])); shift=boundary_shift_statistics(stats[name],stats["afdb"],p0_threshold=p0,p1_threshold=p1,oracle_threshold=float(oracle[name]["threshold"])); row={"dataset":name,**{k:v for k,v in stats[name].items() if k not in ("histogram_bins","histogram_range")},**shift,"p0_threshold":p0,"p1_threshold":p1,"oracle_threshold":float(oracle[name]["threshold"]),"oracle_balanced_accuracy":om["balanced_accuracy"],"p1_balanced_accuracy":p1m["balanced_accuracy"],"boundary_headroom":om["balanced_accuracy"]-p1m["balanced_accuracy"]}; rows.append(row); operating[name]={"P0":compute_binary_metrics(labels[mask],proto[mask],threshold=p0),"P1":p1m,"oracle_post_hoc_only":om}
-    gate=decision_gate(rows,c); r3d={"target_label_usage":c["target_label_usage"],"oracle_usage":"post-hoc mechanism only; prohibited for adaptation/model selection","statistics":rows,"operating_metrics":operating,"decision_gate":gate}; _json(root/"r3d_axis_distribution_shift.json",r3d); _csv(root/"r3d_distribution_statistics.csv",rows); _json(root/"decision_gate.json",gate)
+    gate=decision_gate(rows,c); r3d={"target_label_usage":c["target_label_usage"],"oracle_usage":"post-hoc mechanism only; prohibited for adaptation/model selection","statistics":rows,"operating_metrics":operating,"decision_gate":gate}; _json(root/"r3d_axis_distribution_shift.json",r3d); _csv(root/"r3d_distribution_statistics.csv",rows); _json(root/"decision_gate.json",gate); _plot_distributions(root,names,datasets,labels,proto,p1,oracle)
     result={"experiment":c["experiment"],"r3a":r3a,"r3b_summary":{"matrices":r3b["matrices"]},"r3c":r3c,"r3d":r3d,"adaptation_time_target_labels_accessed":False,"post_freeze_analysis_labels_accessed":True}; _json(root/"analysis_result.json",result)
-    outputs={p.name:sha256_file(p) for p in root.iterdir() if p.is_file()}; _json(root/"run_manifest.json",{"git":git_identity(),"config":c,"input_archive_sha256":artifact["archive_sha256"],"outputs":outputs}); return result
+    outputs={p.name:sha256_file(p) for p in root.iterdir() if p.is_file() and p.name!="run_manifest.json"}; _json(root/"run_manifest.json",{"git":git_identity(),"config":c,"input_archive_sha256":artifact["archive_sha256"],"outputs":outputs}); return result

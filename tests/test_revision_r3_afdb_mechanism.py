@@ -19,3 +19,5 @@ def test_r3_decision_gate_cases():
     assert decision_gate([source,rep],c)["case"]=="A_representation_first"
     assert decision_gate([source,bound],c)["case"]=="B_boundary_first"
     assert decision_gate([source,rep,bound],c)["case"]=="C_mixed"
+    neutral={**bound,"dataset":"shdb-af","boundary_headroom":.001}
+    assert decision_gate([source,neutral],c)["case"]=="D_no_major_bottleneck_benchmark_first"
