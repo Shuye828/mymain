@@ -336,13 +336,19 @@ Stage 1–5D artifacts remain unchanged.
   - [x] Train full-source `M_AFDB` and run seed 42/2024/3407 stability.
   - [x] Verify exact OOF coverage, thresholds, checkpoint hashes, provenance,
     and 86 unit/regression tests; see `REVISION_R2_REPORT.md`.
-- [ ] Revision R3 — `M_AFDB` mechanism revalidation.
-  - [ ] AFDB prototype versus linear head.
-  - [ ] Four-dataset geometry using `LTAFDB-clean1h-v1`.
-  - [ ] AFDB head versus shared disease axis.
-  - [ ] Three-target disease-axis distribution shift.
-- [ ] Run the new Decision Gate; do not inherit the historical Stage 6B-first
-  decision automatically.
-- [ ] Execute Stage 6A/6B in the order selected by the new Decision Gate.
+- [x] Revision R3 — `M_AFDB` mechanism revalidation.
+  - [x] AFDB prototype versus linear head.
+  - [x] Four-dataset geometry using `LTAFDB-clean1h-v1`.
+  - [x] AFDB head versus shared disease axis.
+  - [x] Three-target disease-axis distribution shift.
+  - [x] Verify 199,104-window identity coverage, label-free extraction, all
+    output hashes, figures, and 89 unit/regression tests; see
+    `REVISION_R3_REPORT.md`.
+- [x] Run the new Decision Gate without inheriting historical Stage 6B-first:
+  no predefined Case A/B/C was triggered, so the gate is formally
+  inconclusive. Run the frozen three-target benchmark next; treat this order as
+  a documented post-result protocol clarification, not a pre-frozen Case D.
 - [ ] Run the frozen AFDB-to-three-target final benchmark.
+- [ ] After the benchmark, reassess whether optional Stage 6A/6B development is
+  justified; the R3 gate did not select an A/B order.
 - [ ] Run patient-level statistics and assemble final tables/figures.
