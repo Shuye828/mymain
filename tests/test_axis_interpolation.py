@@ -5,6 +5,7 @@ from src.evaluation.axis_interpolation import (
     _diagnostic_source_rows,
     _npz,
     interpolate_direction,
+    m1_decision_status,
     select_alpha,
 )
 def test_interpolation_endpoints_and_norm():
@@ -30,3 +31,8 @@ def test_diagnostic_source_rows_cover_both_classes():
  selected=_diagnostic_source_rows(rows,4)
  assert len(selected)==4
  assert {r.binary_label for r in selected}=={0,1}
+def test_m1_endpoint_is_not_reported_as_success():
+ means={k:{"alpha0":0.5,"selected":0.5} for k in ("auroc","auprc","balanced_accuracy","macro_f1","mcc")}
+ status,improved=m1_decision_status(0.0,means,[{"auroc":0.5,"auprc":0.5}],[{"auroc":0.5,"auprc":0.5}])
+ assert status=="endpoint_no_axis_utilization"
+ assert improved==0
