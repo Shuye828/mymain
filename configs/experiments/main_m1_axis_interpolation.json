@@ -1,0 +1,36 @@
+{
+  "experiment": "main_m1_axis_interpolation",
+  "role": "source_oof_selected_axis_interpolation",
+  "protocol": "MAIN_M1_PROTOCOL.md",
+  "protocol_sha256": "5fbd2d808b125cfb30d71b2f3c96fc7fbca98ee2641d1e48daceeaab81bdbe78",
+  "seed": 42,
+  "alphas": [0.0, 0.25, 0.5, 0.75, 1.0],
+  "selection": {"auroc_tolerance": 0.005, "numeric_tolerance": 1e-12},
+  "extraction": {"batch_size": 16, "num_workers": 0, "progress_every_batches": 250},
+  "r2": {
+    "config": "configs/experiments/source_afdb_r2.json",
+    "config_sha256": "f63c6712b3d1764976cedbebffd6ec0cbf6d456a2601e7453a415d3e233e1fd3",
+    "fold_manifest": "configs/experiments/afdb_source_oof_folds_v1.csv",
+    "fold_manifest_sha256": "78b9615ab28bb0dbbbfedc41943119c2e53cfb3fed35853707250ea2a8bb07ba",
+    "fold_summary": "outputs/revision_r2_afdb_source/oof/fold_score_summaries.json",
+    "fold_summary_sha256": "0dda58870ddebda8fe3f585d3006ab5c0e707337d14bd26ceb7b5eb33fa82250",
+    "oof_archive": "outputs/revision_r2_afdb_source/oof/afdb_oof_scores.npz",
+    "oof_archive_sha256": "1b3b68543417ae255fddbbb4419c6872c615d0edba25e903073a728924334c2a",
+    "fold_checkpoints": [
+      {"fold": 0, "path": "outputs/revision_r2_afdb_source/folds/fold_0/best.pt", "sha256": "fe3d8f8cdc98b140de599d20f9d07f45db0cb8125e7c17a4640a37bb53f0ee2a"},
+      {"fold": 1, "path": "outputs/revision_r2_afdb_source/folds/fold_1/best.pt", "sha256": "bc9a6013bd9031ad109a42b1450f20457f4d583dfa4c4b8f6a0e98212032cbef"},
+      {"fold": 2, "path": "outputs/revision_r2_afdb_source/folds/fold_2/best.pt", "sha256": "821631687d6d1736b0efcbcaff31be8f2ec85f6aad588804d4ea7e8e3b5c97a5"},
+      {"fold": 3, "path": "outputs/revision_r2_afdb_source/folds/fold_3/best.pt", "sha256": "0394d962dda07a3b3e073fa967e5370f1a0bb110001c5021400a8bcb05a212e9"},
+      {"fold": 4, "path": "outputs/revision_r2_afdb_source/folds/fold_4/best.pt", "sha256": "174491fbbc89a3aa21369052f59af23fd0ef15bf6bfb9f0951edb33c0b05038a"}
+    ],
+    "final_checkpoint": "outputs/revision_r2_afdb_source/full_source/seed_42/final.pt",
+    "final_checkpoint_sha256": "0bd3bae8240ddf07fb6d0b3c194e1ca782d37c9cb92a698b13abff570409916d"
+  },
+  "source": {"index_path": "data/index/afdb_windows.csv", "index_sha256": "f6528265320183418b001e14e9ece11e6128263d8b55114e1e37412f984a5d35", "data_root": "data/raw", "expected_windows": 83150},
+  "targets": {
+    "cpsc2021": {"index_path": "data/index/cpsc2021_windows.csv", "index_sha256": "1e005a25dd87f405c634337e73775df384460bbbadfbc41b1c27ce88be2f0834", "data_root": "data/raw", "expected_evaluation_windows": 82535},
+    "ltaf_clean1h": {"dataset": "ltafdb", "dataset_version": "ltaf_skip_first_hour_v1", "index_path": "data/index/ltaf_skip_first_hour_v1/ltafdb_windows.csv", "index_sha256": "f5aa7ad7c29fa138445e73a40b76a7140e85c365f0717db2fe1f536ebc98befe", "data_root": "data/raw", "expected_evaluation_windows": 304873},
+    "shdb": {"dataset": "shdb-af", "index_path": "data/index/shdb-af_windows.csv", "index_sha256": "b6d018738681e9dcd80582d20a276a3b31dda8c8b8d1e2db228dc9bcbd311231", "data_root": "data/raw", "expected_evaluation_windows": 410355}
+  },
+  "output_dir": "outputs/main_m1_axis_interpolation"
+}
