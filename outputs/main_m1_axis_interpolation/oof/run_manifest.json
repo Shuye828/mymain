@@ -1,0 +1,33 @@
+{
+  "formal": true,
+  "target_data_accessed": false,
+  "source_labels_used": true,
+  "windows": 83150,
+  "fold_counts": {
+    "0": 17897,
+    "1": 18288,
+    "2": 17970,
+    "3": 14366,
+    "4": 14629
+  },
+  "archive_sha256": "db37f892446b4c80da5f8921a7841caebafd481152926c73e567a2cac10e7d05",
+  "git": {
+    "commit": "8f6f53535b29dea0c71af32303096d2e4659f055",
+    "dirty": false
+  },
+  "environment": {
+    "python": "3.12.4 | packaged by Anaconda, Inc. | (main, Jun 18 2024, 10:07:17) [Clang 14.0.6 ]",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "device": "mps",
+    "packages": {
+      "torch": "2.6.0",
+      "numpy": "1.26.4",
+      "scipy": "1.13.1",
+      "h5py": "3.11.0",
+      "wfdb": "4.1.2",
+      "sklearn": "1.4.2"
+    },
+    "pid": 44910
+  },
+  "runtime_seconds": 659.6895434999606
+}

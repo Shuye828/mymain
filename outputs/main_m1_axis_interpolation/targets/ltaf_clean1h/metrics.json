@@ -1,0 +1,145 @@
+{
+  "post_freeze_target_labels_accessed": true,
+  "metrics": [
+    {
+      "target": "ltaf_clean1h",
+      "alpha": 0.0,
+      "selected": true,
+      "accuracy": 0.9328540080623735,
+      "balanced_accuracy": 0.9332237025477634,
+      "macro_f1": 0.9328338319140828,
+      "auroc": 0.9832644970261213,
+      "auprc": 0.9832521572211801,
+      "sensitivity": 0.9450542753245346,
+      "specificity": 0.9213931297709924,
+      "precision": 0.9186589957608152,
+      "mcc": 0.8660293052832188,
+      "threshold": 0.00487036257982254,
+      "confusion_matrix": [
+        [
+          144843,
+          12357
+        ],
+        [
+          8114,
+          139559
+        ]
+      ],
+      "support": 304873,
+      "positive_count": 147673,
+      "negative_count": 157200
+    },
+    {
+      "target": "ltaf_clean1h",
+      "alpha": 0.25,
+      "selected": false,
+      "accuracy": 0.9325817635540045,
+      "balanced_accuracy": 0.9329943860514383,
+      "macro_f1": 0.9325646058761046,
+      "auroc": 0.9834951567738147,
+      "auprc": 0.9835179434972496,
+      "sensitivity": 0.9461986957669987,
+      "specificity": 0.9197900763358778,
+      "precision": 0.9172295634021939,
+      "mcc": 0.8655660321059535,
+      "threshold": -0.02299923449754715,
+      "confusion_matrix": [
+        [
+          144591,
+          12609
+        ],
+        [
+          7945,
+          139728
+        ]
+      ],
+      "support": 304873,
+      "positive_count": 147673,
+      "negative_count": 157200
+    },
+    {
+      "target": "ltaf_clean1h",
+      "alpha": 0.5,
+      "selected": false,
+      "accuracy": 0.9325784834996868,
+      "balanced_accuracy": 0.9330109043709445,
+      "macro_f1": 0.9325626602288142,
+      "auroc": 0.9836629492774671,
+      "auprc": 0.9837062923950961,
+      "sensitivity": 0.946848780752067,
+      "specificity": 0.9191730279898219,
+      "precision": 0.9166983544220809,
+      "mcc": 0.8655990310494593,
+      "threshold": -0.043018888682127,
+      "confusion_matrix": [
+        [
+          144494,
+          12706
+        ],
+        [
+          7849,
+          139824
+        ]
+      ],
+      "support": 304873,
+      "positive_count": 147673,
+      "negative_count": 157200
+    },
+    {
+      "target": "ltaf_clean1h",
+      "alpha": 0.75,
+      "selected": false,
+      "accuracy": 0.9326244042601346,
+      "balanced_accuracy": 0.9330494828991619,
+      "macro_f1": 0.9326081003088351,
+      "auroc": 0.9837830353466996,
+      "auprc": 0.98383685766327,
+      "sensitivity": 0.9466524009128277,
+      "specificity": 0.9194465648854961,
+      "precision": 0.9169410591769537,
+      "mcc": 0.8656759962058682,
+      "threshold": -0.048569366335868835,
+      "confusion_matrix": [
+        [
+          144537,
+          12663
+        ],
+        [
+          7878,
+          139795
+        ]
+      ],
+      "support": 304873,
+      "positive_count": 147673,
+      "negative_count": 157200
+    },
+    {
+      "target": "ltaf_clean1h",
+      "alpha": 1.0,
+      "selected": false,
+      "accuracy": 0.9328999288228214,
+      "balanced_accuracy": 0.9332776709049526,
+      "macro_f1": 0.9328803575066243,
+      "auroc": 0.9838656337719494,
+      "auprc": 0.9839231642566748,
+      "sensitivity": 0.9453657743798799,
+      "specificity": 0.9211895674300254,
+      "precision": 0.9184902035606669,
+      "mcc": 0.8661357899918766,
+      "threshold": -0.034078337252140045,
+      "confusion_matrix": [
+        [
+          144811,
+          12389
+        ],
+        [
+          8068,
+          139605
+        ]
+      ],
+      "support": 304873,
+      "positive_count": 147673,
+      "negative_count": 157200
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "frozen": true,
+  "formal": true,
+  "target_data_accessed": false,
+  "source_labels_used": true,
+  "selection_rule": "within_0.005_best_auroc_then_max_bacc_then_larger_alpha",
+  "alphas": [
+    {
+      "alpha": 0.0,
+      "auroc": 0.9795024373735028,
+      "auprc": 0.9652387157725582,
+      "threshold": 0.00487036257982254,
+      "balanced_accuracy": 0.9431657116977235,
+      "macro_f1": 0.9373910364880289,
+      "mcc": 0.8767704294471345,
+      "sensitivity": 0.963592742540111,
+      "specificity": 0.9227386808553358,
+      "precision": 0.8930487228661164,
+      "accuracy": 0.9391220685508118
+    },
+    {
+      "alpha": 0.25,
+      "auroc": 0.9792774974296593,
+      "auprc": 0.9639129119273183,
+      "threshold": -0.02299923449754715,
+      "balanced_accuracy": 0.9427277929885468,
+      "macro_f1": 0.9367591031844134,
+      "mcc": 0.8756434772495797,
+      "sensitivity": 0.9641625431099116,
+      "specificity": 0.921293042867182,
+      "precision": 0.8913224286110341,
+      "accuracy": 0.9384846662657848
+    },
+    {
+      "alpha": 0.5,
+      "auroc": 0.9789583905647078,
+      "auprc": 0.9620565968310617,
+      "threshold": -0.043018888682127,
+      "balanced_accuracy": 0.9422860702699443,
+      "macro_f1": 0.9362265386113144,
+      "mcc": 0.8746455735954483,
+      "sensitivity": 0.9641625431099116,
+      "specificity": 0.9204095974299769,
+      "precision": 0.8902364733898211,
+      "accuracy": 0.9379555021046302
+    },
+    {
+      "alpha": 0.75,
+      "auroc": 0.9786169115480801,
+      "auprc": 0.9588467948368551,
+      "threshold": -0.048569366335868835,
+      "balanced_accuracy": 0.941786799677838,
+      "macro_f1": 0.9358536616481052,
+      "mcc": 0.8738135365988262,
+      "sensitivity": 0.9629029839556156,
+      "specificity": 0.9206706154000602,
+      "precision": 0.8904295737541252,
+      "accuracy": 0.9376067348165965
+    },
+    {
+      "alpha": 1.0,
+      "auroc": 0.9782915008960799,
+      "auprc": 0.9571767124237573,
+      "threshold": -0.034078337252140045,
+      "balanced_accuracy": 0.9413702734411393,
+      "macro_f1": 0.9357872187675522,
+      "mcc": 0.8734445212575677,
+      "sensitivity": 0.9605038236617184,
+      "specificity": 0.9222367232205602,
+      "precision": 0.8921199966574748,
+      "accuracy": 0.9375826819001803
+    }
+  ],
+  "eligible_alphas": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "selected_alpha": 0.0,
+  "selected_threshold": 0.00487036257982254,
+  "oof_archive_sha256": "db37f892446b4c80da5f8921a7841caebafd481152926c73e567a2cac10e7d05",
+  "protocol_sha256": "5fbd2d808b125cfb30d71b2f3c96fc7fbca98ee2641d1e48daceeaab81bdbe78"
+}

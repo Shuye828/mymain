@@ -1,0 +1,98 @@
+{
+  "formal": true,
+  "all_gates_pass": true,
+  "gates": {
+    "oof_formal": true,
+    "oof_windows_exact": true,
+    "oof_identities_unique": true,
+    "oof_archive_hash_valid": true,
+    "oof_features_finite": true,
+    "selection_formal_source_only": true,
+    "final_axis_formal_source_only": true,
+    "final_axis_hash_valid": true,
+    "all_target_gates_pass": true
+  },
+  "oof": {
+    "windows": 83150,
+    "feature_shape": [
+      83150,
+      128
+    ],
+    "feature_norm_min": 0.9999998807907104,
+    "feature_norm_max": 1.0000001192092896,
+    "archive_sha256": "db37f892446b4c80da5f8921a7841caebafd481152926c73e567a2cac10e7d05",
+    "git": {
+      "commit": "8f6f53535b29dea0c71af32303096d2e4659f055",
+      "dirty": false
+    }
+  },
+  "selection": {
+    "alpha": 0.0,
+    "threshold": 0.00487036257982254,
+    "artifact_sha256": "250ec67cc6ecd60e6743bb5665dcbf8f18929fdbf282e31096366d7a97a6bb2a"
+  },
+  "final_axis": {
+    "source_windows": 18319,
+    "head_prototype_cosine": 0.8878874243960895,
+    "artifact_sha256": "28d9dd9e0b047d38cbb1f3f20d7b31f8bf46817c0ae73308302de8b16c8ac862"
+  },
+  "targets": {
+    "cpsc2021": {
+      "expected_windows": 82535,
+      "actual_windows": 82535,
+      "unique_windows": 82535,
+      "formal": true,
+      "target_labels_accessed_during_scoring": false,
+      "forbidden_archive_fields": [],
+      "score_field_count": 5,
+      "scores_finite": true,
+      "score_sha256": "aa07672cc80f8b4dae9ec384ef9d42ae7a98392796deb8c2782f7968d861c615",
+      "score_hash_valid": true,
+      "artifact_hash_valid": true,
+      "extraction_git": {
+        "commit": "749e994598eda2fbfb9386922081bb80e707707d",
+        "dirty": false
+      }
+    },
+    "ltaf_clean1h": {
+      "expected_windows": 304873,
+      "actual_windows": 304873,
+      "unique_windows": 304873,
+      "formal": true,
+      "target_labels_accessed_during_scoring": false,
+      "forbidden_archive_fields": [],
+      "score_field_count": 5,
+      "scores_finite": true,
+      "score_sha256": "02575cf840748ee55c62e151aa8fdcd8f3e338ff618850750bd695149edc8d5a",
+      "score_hash_valid": true,
+      "artifact_hash_valid": true,
+      "extraction_git": {
+        "commit": "749e994598eda2fbfb9386922081bb80e707707d",
+        "dirty": false
+      }
+    },
+    "shdb": {
+      "expected_windows": 410355,
+      "actual_windows": 410355,
+      "unique_windows": 410355,
+      "formal": true,
+      "target_labels_accessed_during_scoring": false,
+      "forbidden_archive_fields": [],
+      "score_field_count": 5,
+      "scores_finite": true,
+      "score_sha256": "5eb9b36372e579dbd5574d8473a2f0f10c644cdc37c7757303f61868f6cab584",
+      "score_hash_valid": true,
+      "artifact_hash_valid": true,
+      "extraction_git": {
+        "commit": "749e994598eda2fbfb9386922081bb80e707707d",
+        "dirty": false
+      }
+    }
+  },
+  "total_target_windows": 797763,
+  "analysis_result_sha256": "4302a5b51c9090f8a43395a2698cd548a5946435d1890ee1330115a0426822cf",
+  "analysis_git": {
+    "commit": "749e994598eda2fbfb9386922081bb80e707707d",
+    "dirty": false
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "formal": true,
+  "git": {
+    "commit": "0bd3f9c91b9b7279512bdcebe1e45629ba455095",
+    "dirty": false
+  },
+  "analysis_result_sha256": "4302a5b51c9090f8a43395a2698cd548a5946435d1890ee1330115a0426822cf",
+  "dose_response_means_sha256": "47fa3cf0cfbf35b80068c389ec3033913c6394ad11e02b01cf51869b3ab6e0f3",
+  "completion_audit_sha256": "8d965e849f5db8c5b5b874612aad628e25101d6a2165cd546638e777e0881913",
+  "figure_sha256": "928091e17bfbc907cb6b159fca24b57100e8256d6f3ba34acca813f4a1a83927"
+}

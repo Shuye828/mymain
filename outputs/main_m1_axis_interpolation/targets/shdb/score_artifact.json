@@ -1,0 +1,11 @@
+{
+  "frozen": true,
+  "formal": true,
+  "target": "shdb",
+  "target_labels_accessed": false,
+  "diagnostic_max_batches": null,
+  "windows": 410355,
+  "target_index_sha256": "b6d018738681e9dcd80582d20a276a3b31dda8c8b8d1e2db228dc9bcbd311231",
+  "final_direction_sha256": "28d9dd9e0b047d38cbb1f3f20d7b31f8bf46817c0ae73308302de8b16c8ac862",
+  "score_sha256": "5eb9b36372e579dbd5574d8473a2f0f10c644cdc37c7757303f61868f6cab584"
+}

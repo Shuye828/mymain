@@ -352,3 +352,37 @@ Stage 1–5D artifacts remain unchanged.
 - [ ] After the benchmark, reassess whether optional Stage 6A/6B development is
   justified; the R3 gate did not select an A/B order.
 - [ ] Run patient-level statistics and assemble final tables/figures.
+
+## Main-first disease-axis alignment order (current priority)
+
+This section follows `EXPERIMENT_PLAN_MAIN_FIRST_AXIS_ALIGNMENT.md` and
+supersedes the post-R3 execution order above without modifying any frozen
+Stage 1–5D/R1/R2/R3 result.
+
+- [x] Freeze `EXPERIMENT_PLAN_MAIN_FIRST_AXIS_ALIGNMENT.md` unchanged.
+- [x] Main M1 — Direct Disease-Axis Utilization.
+  - [x] Freeze `MAIN_M1_PROTOCOL.md` before implementation.
+  - [x] Re-extract normalized features for all 83,150 AFDB OOF windows with
+    fold-specific `d_head` and verified frozen `d_proto`.
+  - [x] Score the fixed alpha grid `[0, 0.25, 0.5, 0.75, 1]`.
+  - [x] Select alpha and all five thresholds using AFDB OOF only.
+  - [x] Retain the endpoint selection `alpha=0` and threshold `0.0048703626`
+    without target-driven repair.
+  - [x] Build the seed-42 full-source final directions from 18,319 capped AFDB
+    windows.
+  - [x] Freeze label-free scores for all 797,763 evaluation windows across
+    CPSC2021, LTAFDB-clean1h-v1, and SHDB-AF.
+  - [x] Join target labels only after full score/hash/schema/coverage audit.
+  - [x] Report primary metrics and all-alpha dose response in
+    `MAIN_M1_REPORT.md`; formal status is
+    `endpoint_no_axis_utilization`.
+  - [x] Pass 97 unit/regression tests and the formal completion audit.
+- [ ] Main M2 — Learned Disease-Axis Alignment.
+  - [ ] Submit and freeze an M2 protocol before broad code changes.
+  - [ ] Define source-only axis loss and fold-specific prototype updates.
+  - [ ] Freeze the AFDB OOF lambda grid, threshold rule, and tie breaks.
+  - [ ] Train/evaluate seed 42 without target-specific tuning.
+  - [ ] Report M2 and decide whether to enter M3.
+- [ ] Main M3 — Formal AFDB-to-three-target test.
+- [ ] Main M4 — Multi-seed stability for the selected main method.
+- [ ] Late baselines and ablations.

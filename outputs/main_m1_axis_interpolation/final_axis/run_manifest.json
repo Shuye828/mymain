@@ -1,0 +1,23 @@
+{
+  "git": {
+    "commit": "8f6f53535b29dea0c71af32303096d2e4659f055",
+    "dirty": false
+  },
+  "environment": {
+    "python": "3.12.4 | packaged by Anaconda, Inc. | (main, Jun 18 2024, 10:07:17) [Clang 14.0.6 ]",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "device": "mps",
+    "packages": {
+      "torch": "2.6.0",
+      "numpy": "1.26.4",
+      "scipy": "1.13.1",
+      "h5py": "3.11.0",
+      "wfdb": "4.1.2",
+      "sklearn": "1.4.2"
+    },
+    "pid": 67039
+  },
+  "formal": true,
+  "artifact_sha256": "28d9dd9e0b047d38cbb1f3f20d7b31f8bf46817c0ae73308302de8b16c8ac862",
+  "runtime_seconds": 74.36761104199104
+}

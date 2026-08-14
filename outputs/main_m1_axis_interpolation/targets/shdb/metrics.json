@@ -1,0 +1,145 @@
+{
+  "post_freeze_target_labels_accessed": true,
+  "metrics": [
+    {
+      "target": "shdb",
+      "alpha": 0.0,
+      "selected": true,
+      "accuracy": 0.8677389089934325,
+      "balanced_accuracy": 0.8960869882285973,
+      "macro_f1": 0.7951967417778002,
+      "auroc": 0.9422787996657622,
+      "auprc": 0.7180618171424973,
+      "sensitivity": 0.9360815424784094,
+      "specificity": 0.8560924339787853,
+      "precision": 0.525727553015491,
+      "mcc": 0.6375853285617158,
+      "threshold": 0.00487036257982254,
+      "confusion_matrix": [
+        [
+          300152,
+          50455
+        ],
+        [
+          3819,
+          55929
+        ]
+      ],
+      "support": 410355,
+      "positive_count": 59748,
+      "negative_count": 350607
+    },
+    {
+      "target": "shdb",
+      "alpha": 0.25,
+      "selected": false,
+      "accuracy": 0.8662694496228875,
+      "balanced_accuracy": 0.8963725441937238,
+      "macro_f1": 0.7937838509280675,
+      "auroc": 0.9417248644515938,
+      "auprc": 0.7162230586479483,
+      "sensitivity": 0.9388431411930106,
+      "specificity": 0.8539019471944371,
+      "precision": 0.5226944472916686,
+      "mcc": 0.6362425793575148,
+      "threshold": -0.02299923449754715,
+      "confusion_matrix": [
+        [
+          299384,
+          51223
+        ],
+        [
+          3654,
+          56094
+        ]
+      ],
+      "support": 410355,
+      "positive_count": 59748,
+      "negative_count": 350607
+    },
+    {
+      "target": "shdb",
+      "alpha": 0.5,
+      "selected": false,
+      "accuracy": 0.865438461819644,
+      "balanced_accuracy": 0.8964694048728745,
+      "macro_f1": 0.7929714962785441,
+      "auroc": 0.9411751330381793,
+      "auprc": 0.7140248283680366,
+      "sensitivity": 0.9402490459931713,
+      "specificity": 0.8526897637525777,
+      "precision": 0.5210060653274721,
+      "mcc": 0.635428074416695,
+      "threshold": -0.043018888682127,
+      "confusion_matrix": [
+        [
+          298959,
+          51648
+        ],
+        [
+          3570,
+          56178
+        ]
+      ],
+      "support": 410355,
+      "positive_count": 59748,
+      "negative_count": 350607
+    },
+    {
+      "target": "shdb",
+      "alpha": 0.75,
+      "selected": false,
+      "accuracy": 0.8655310645660464,
+      "balanced_accuracy": 0.8962181317606129,
+      "macro_f1": 0.7929982272442645,
+      "auroc": 0.9406296299385206,
+      "auprc": 0.7114268597904566,
+      "sensitivity": 0.9395126196692777,
+      "specificity": 0.8529236438519482,
+      "precision": 0.5212070566388115,
+      "mcc": 0.6352644330083231,
+      "threshold": -0.048569366335868835,
+      "confusion_matrix": [
+        [
+          299041,
+          51566
+        ],
+        [
+          3614,
+          56134
+        ]
+      ],
+      "support": 410355,
+      "positive_count": 59748,
+      "negative_count": 350607
+    },
+    {
+      "target": "shdb",
+      "alpha": 1.0,
+      "selected": false,
+      "accuracy": 0.8666764143241827,
+      "balanced_accuracy": 0.8951875141163741,
+      "macro_f1": 0.7938808401083542,
+      "auroc": 0.9400895964843331,
+      "auprc": 0.7082907696991149,
+      "sensitivity": 0.9354120640021424,
+      "specificity": 0.8549629642306058,
+      "precision": 0.5235994004122166,
+      "mcc": 0.6354479407418941,
+      "threshold": -0.034078337252140045,
+      "confusion_matrix": [
+        [
+          299756,
+          50851
+        ],
+        [
+          3859,
+          55889
+        ]
+      ],
+      "support": 410355,
+      "positive_count": 59748,
+      "negative_count": 350607
+    }
+  ]
+}

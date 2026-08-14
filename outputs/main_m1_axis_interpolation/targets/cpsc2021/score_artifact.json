@@ -1,0 +1,11 @@
+{
+  "frozen": true,
+  "formal": true,
+  "target": "cpsc2021",
+  "target_labels_accessed": false,
+  "diagnostic_max_batches": null,
+  "windows": 82535,
+  "target_index_sha256": "1e005a25dd87f405c634337e73775df384460bbbadfbc41b1c27ce88be2f0834",
+  "final_direction_sha256": "28d9dd9e0b047d38cbb1f3f20d7b31f8bf46817c0ae73308302de8b16c8ac862",
+  "score_sha256": "aa07672cc80f8b4dae9ec384ef9d42ae7a98392796deb8c2782f7968d861c615"
+}

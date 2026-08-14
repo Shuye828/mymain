@@ -1,0 +1,11 @@
+{
+  "frozen": true,
+  "formal": true,
+  "target": "ltaf_clean1h",
+  "target_labels_accessed": false,
+  "diagnostic_max_batches": null,
+  "windows": 304873,
+  "target_index_sha256": "f5aa7ad7c29fa138445e73a40b76a7140e85c365f0717db2fe1f536ebc98befe",
+  "final_direction_sha256": "28d9dd9e0b047d38cbb1f3f20d7b31f8bf46817c0ae73308302de8b16c8ac862",
+  "score_sha256": "02575cf840748ee55c62e151aa8fdcd8f3e338ff618850750bd695149edc8d5a"
+}
