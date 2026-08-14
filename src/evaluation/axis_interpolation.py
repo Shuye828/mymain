@@ -151,6 +151,19 @@ def m1_decision_status(selected_alpha,means,selected,base):
  """Apply the frozen M1 decision rule without calling an endpoint a success."""
  if np.isclose(float(selected_alpha),0.0,atol=1e-12,rtol=0): return "endpoint_no_axis_utilization",0
  improved_targets=sum((s["auroc"]>=b["auroc"] and s["auprc"]>=b["auprc"] and (s["auroc"]>b["auroc"] or s["auprc"]>b["auprc"])) for s,b in zip(selected,base)); ranking=means["auroc"]["selected"]>means["auroc"]["alpha0"] and means["auprc"]["selected"]>means["auprc"]["alpha0"]; operating=sum(means[k]["selected"]>means[k]["alpha0"] for k in ("balanced_accuracy","macro_f1","mcc")); status="strong_success" if ranking and operating>=2 and improved_targets>=2 else ("partial_success" if ranking else ("failure" if means["auroc"]["selected"]<means["auroc"]["alpha0"] and means["auprc"]["selected"]<means["auprc"]["alpha0"] and operating==0 else "mixed_or_neutral")); return status,int(improved_targets)
+def dose_response_means(per_target):
+ """Aggregate each predeclared alpha equally across the three targets."""
+ metrics=("auroc","auprc","balanced_accuracy","macro_f1","mcc")
+ alphas=sorted({float(x["alpha"]) for rows in per_target.values() for x in rows})
+ result=[]
+ for alpha in alphas:
+  rows=[x for target_rows in per_target.values() for x in target_rows if np.isclose(float(x["alpha"]),alpha,atol=1e-12,rtol=0)]
+  if len(rows)!=len(per_target): raise ValueError("dose-response target coverage mismatch")
+  result.append({"alpha":alpha,**{f"mean_{k}":float(np.mean([x[k] for x in rows])) for k in metrics}})
+ baseline=result[0]
+ for row in result:
+  for metric in metrics: row[f"delta_{metric}_vs_alpha0"]=row[f"mean_{metric}"]-baseline[f"mean_{metric}"]
+ return result
 def evaluate_targets(c,*,output_override=None):
  validate_config(c); root=_root(c,output_override); selection=_load(root/"oof/selection_artifact.json"); all_rows=[]; per={}
  for target,entry in c["targets"].items():

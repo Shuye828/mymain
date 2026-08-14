@@ -4,6 +4,7 @@ from src.evaluation.axis_interpolation import (
     _assert_unique,
     _diagnostic_source_rows,
     _npz,
+    dose_response_means,
     interpolate_direction,
     m1_decision_status,
     select_alpha,
@@ -36,3 +37,9 @@ def test_m1_endpoint_is_not_reported_as_success():
  status,improved=m1_decision_status(0.0,means,[{"auroc":0.5,"auprc":0.5}],[{"auroc":0.5,"auprc":0.5}])
  assert status=="endpoint_no_axis_utilization"
  assert improved==0
+def test_dose_response_means_are_target_equal_and_delta_based():
+ per={"a":[{"alpha":0.0,**{k:1.0 for k in ("auroc","auprc","balanced_accuracy","macro_f1","mcc")}}, {"alpha":1.0,**{k:3.0 for k in ("auroc","auprc","balanced_accuracy","macro_f1","mcc")}}],"b":[{"alpha":0.0,**{k:3.0 for k in ("auroc","auprc","balanced_accuracy","macro_f1","mcc")}}, {"alpha":1.0,**{k:5.0 for k in ("auroc","auprc","balanced_accuracy","macro_f1","mcc")}}]}
+ rows=dose_response_means(per)
+ assert rows[0]["mean_auroc"]==2.0
+ assert rows[1]["mean_auroc"]==4.0
+ assert rows[1]["delta_auroc_vs_alpha0"]==2.0
