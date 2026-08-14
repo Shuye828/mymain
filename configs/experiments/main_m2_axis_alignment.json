@@ -1,0 +1,63 @@
+{
+  "experiment": "main_m2_axis_alignment",
+  "role": "source_axis_alignment",
+  "dataset": "afdb",
+  "protocol": "MAIN_M2_PROTOCOL.md",
+  "protocol_sha256": "432750dacac0d1c02e1a6d07f332b8038238d897ba883a72f956e4e7dc554afe",
+  "governing_plan": "EXPERIMENT_PLAN_MAIN_FIRST_AXIS_ALIGNMENT.md",
+  "governing_plan_sha256": "a1c238c7b21b6637efd14084097579de677ae6252cda43adc39ce3177a76477a",
+  "r2_config": "configs/experiments/source_afdb_r2.json",
+  "r2_config_sha256": "f63c6712b3d1764976cedbebffd6ec0cbf6d456a2601e7453a415d3e233e1fd3",
+  "data_root": "data/raw",
+  "index_path": "data/index/afdb_windows.csv",
+  "index_sha256": "f6528265320183418b001e14e9ece11e6128263d8b55114e1e37412f984a5d35",
+  "expected_source_windows": 83150,
+  "fold_manifest": "configs/experiments/afdb_source_oof_folds_v1.csv",
+  "fold_manifest_sha256": "78b9615ab28bb0dbbbfedc41943119c2e53cfb3fed35853707250ea2a8bb07ba",
+  "folds": 5,
+  "seed": 42,
+  "lambdas": [0.01, 0.05, 0.10, 0.20],
+  "model": {
+    "dim": 128,
+    "max_channel": 2,
+    "num_heads": 8,
+    "num_layers": 6,
+    "patch_size": 8,
+    "num_classes": 2
+  },
+  "training": {
+    "batch_size": 8,
+    "eval_batch_size": 16,
+    "num_workers": 0,
+    "progress_every_batches": 250,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "epochs": 100,
+    "patience": 10,
+    "max_windows_per_subject_per_class": 500,
+    "checkpoint_metric": "validation_macro_f1",
+    "axis_refresh": "epoch_start_full_capped_training_cohort",
+    "normalize_features_for_axis": true
+  },
+  "selection": {
+    "r2_oof_archive": "outputs/revision_r2_afdb_source/oof/afdb_oof_scores.npz",
+    "r2_oof_archive_sha256": "1b3b68543417ae255fddbbb4419c6872c615d0edba25e903073a728924334c2a",
+    "r2_oof_metrics": "outputs/revision_r2_afdb_source/oof/oof_metrics.json",
+    "r2_oof_metrics_sha256": "6ff38701c930450db82ad5084654842a38775832ffa9ee21fbc5c081e98f9384",
+    "ce_auroc": 0.9798513055316695,
+    "ce_auprc": 0.9675388907567327,
+    "ce_optimized_bacc": 0.9431701554792133,
+    "max_auroc_drop": 0.005,
+    "max_bacc_drop": 0.01,
+    "numeric_tolerance": 1e-12,
+    "threshold_rule": "max_bacc_then_macro_f1_then_closest_zero_then_lower",
+    "geometry_aggregation": "unweighted_mean_five_fold_angles",
+    "lambda_tie_break": "smaller_lambda"
+  },
+  "full_source": {
+    "seed": 42,
+    "epoch_rule": "integer_median_of_selected_lambda_five_best_epochs",
+    "expected_training_windows": 18319
+  },
+  "output_dir": "outputs/main_m2_axis_alignment"
+}
