@@ -377,12 +377,29 @@ Stage 1–5D/R1/R2/R3 result.
     `MAIN_M1_REPORT.md`; formal status is
     `endpoint_no_axis_utilization`.
   - [x] Pass 97 unit/regression tests and the formal completion audit.
-- [ ] Main M2 — Learned Disease-Axis Alignment.
-  - [ ] Submit and freeze an M2 protocol before broad code changes.
-  - [ ] Define source-only axis loss and fold-specific prototype updates.
-  - [ ] Freeze the AFDB OOF lambda grid, threshold rule, and tie breaks.
-  - [ ] Train/evaluate seed 42 without target-specific tuning.
-  - [ ] Report M2 and decide whether to enter M3.
-- [ ] Main M3 — Formal AFDB-to-three-target test.
-- [ ] Main M4 — Multi-seed stability for the selected main method.
+- [x] Main M2 — Learned Disease-Axis Alignment.
+  - [x] Submit and freeze `MAIN_M2_PROTOCOL.md` before broad code changes.
+  - [x] Implement source-only axis loss and epoch-level fold-specific source
+    axis updates; pass real MPS resume smoke and regression gates.
+  - [x] Complete all 4 lambdas x 5 folds with exact 83,150-window AFDB OOF
+    coverage and no target access.
+  - [x] Select lambda `0.05` and raw-logit threshold `0.2902590632` under the
+    frozen eligibility/angle/tie rules.
+  - [x] Train the seed-42 final model for the frozen median 14 epochs on all
+    23 AFDB subjects / 18,319 capped windows; final source angle is `3.756°`.
+  - [x] Preserve source-only artifacts and report them in `MAIN_M2_REPORT.md`.
+- [x] Main M3 — Formal AFDB-to-three-target test.
+  - [x] Freeze label-free raw-logit archives for all 797,763 CPSC2021,
+    LTAFDB-clean1h-v1, and SHDB-AF evaluation windows before label access.
+  - [x] Reuse the single M2 checkpoint and AFDB OOF threshold for every target
+    without target-specific tuning.
+  - [x] Pass exact hash/schema/finite/identity/coverage completion audit.
+  - [x] Report unified and post-freeze mechanism metrics in
+    `MAIN_M3_REPORT.md`; formal status is `failure` versus the frozen M1
+    normalized-head endpoint.
+- [ ] Main M4 — Multi-seed stability for the selected main method. Do not enter
+  automatically: the Main M3 failure gate stops expansion of this M2 variant.
+- [ ] Late B1 baseline — run the R2 CE checkpoint through the same full-cohort
+  raw-logit three-target pipeline to provide an exactly matched comparator;
+  this cannot revise or tune the frozen M2/M3 result.
 - [ ] Late baselines and ablations.
