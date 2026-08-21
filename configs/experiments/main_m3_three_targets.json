@@ -1,0 +1,55 @@
+{
+  "experiment": "main_m3_afdb_three_target",
+  "role": "frozen_main_m2_three_target_evaluation",
+  "governing_plan": "EXPERIMENT_PLAN_MAIN_FIRST_AXIS_ALIGNMENT.md",
+  "governing_plan_sha256": "a1c238c7b21b6637efd14084097579de677ae6252cda43adc39ce3177a76477a",
+  "m2_protocol": "MAIN_M2_PROTOCOL.md",
+  "m2_protocol_sha256": "432750dacac0d1c02e1a6d07f332b8038238d897ba883a72f956e4e7dc554afe",
+  "m2_selection": "outputs/main_m2_axis_alignment/oof/selection_artifact.json",
+  "m2_selection_sha256": "e9a4382fe28c79029dea91b0bdc7a232366e02a2fb275e7429e3c065afb85237",
+  "m2_epoch_rule": "outputs/main_m2_axis_alignment/oof/final_epoch_rule.json",
+  "m2_epoch_rule_sha256": "2a6ef525e81819e245346f0f39c8b58ae8fd741bfc56c9192d94cfd74c150511",
+  "m2_checkpoint": "outputs/main_m2_axis_alignment/final_model/seed_42/final.pt",
+  "m2_checkpoint_sha256": "e6f74ee21938d9ead27fad4e746a0192a36ab0b70c4681f4076ebc6f1525cdff",
+  "m2_result": "outputs/main_m2_axis_alignment/final_model/seed_42/result.json",
+  "m2_result_sha256": "e6267daf98ceeb76b8cf5826351c0b972ce885c0d8b9f5d5dac026fd3ecf38fc",
+  "reference_result": "outputs/main_m1_axis_interpolation/analysis_result.json",
+  "reference_result_sha256": "4302a5b51c9090f8a43395a2698cd548a5946435d1890ee1330115a0426822cf",
+  "seed": 42,
+  "score_definition": "logit_AF_minus_logit_nonAF",
+  "threshold_policy": "single_AFDB_OOF_raw_logit_threshold",
+  "source_oof_threshold": 0.29025906324386597,
+  "extraction": {
+    "batch_size": 16,
+    "num_workers": 0,
+    "progress_every_batches": 250
+  },
+  "mechanism": {
+    "histogram_bins": 200,
+    "histogram_range_rule": "target_unlabeled_observed_min_max"
+  },
+  "targets": {
+    "cpsc2021": {
+      "index_path": "data/index/cpsc2021_windows.csv",
+      "index_sha256": "1e005a25dd87f405c634337e73775df384460bbbadfbc41b1c27ce88be2f0834",
+      "data_root": "data/raw",
+      "expected_evaluation_windows": 82535
+    },
+    "ltaf_clean1h": {
+      "dataset": "ltafdb",
+      "dataset_version": "ltaf_skip_first_hour_v1",
+      "index_path": "data/index/ltaf_skip_first_hour_v1/ltafdb_windows.csv",
+      "index_sha256": "f5aa7ad7c29fa138445e73a40b76a7140e85c365f0717db2fe1f536ebc98befe",
+      "data_root": "data/raw",
+      "expected_evaluation_windows": 304873
+    },
+    "shdb": {
+      "dataset": "shdb-af",
+      "index_path": "data/index/shdb-af_windows.csv",
+      "index_sha256": "b6d018738681e9dcd80582d20a276a3b31dda8c8b8d1e2db228dc9bcbd311231",
+      "data_root": "data/raw",
+      "expected_evaluation_windows": 410355
+    }
+  },
+  "output_dir": "outputs/main_m3_afdb_three_target"
+}
